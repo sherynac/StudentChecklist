@@ -59,6 +59,27 @@ public class GUI extends JFrame{
         /*
          * code for filePanel/getting the file name
          */
+        continueButton.addActionListener(e -> {
+            fileName = fileNameTF.getText();
+            if (fileName.isEmpty()) {
+                problemDisplayer = "Make sure you have entered the file name";
+            } else {
+                try {
+                    listOfCourse = readDataFileIntoList(fileName);
+                    problemDisplayer = "";
+                } catch (FileNotFoundException ex1) {
+                    problemDisplayer = fileName + " cannot be found.";
+                } catch (IOException ex2) {
+                    problemDisplayer = "There seems to be a problem with you input/output device";
+                }
+            }
+            if (problemDisplayer.equalsIgnoreCase("")) {
+                cl.show(mainPanel, "2");
+            }
+            else {
+                fileNameOutputTF.setText(problemDisplayer);
+            }
+        });
 
         mainPanel.setLayout(cl);
         mainPanel.add(filePanel, "1");
@@ -146,6 +167,44 @@ public class GUI extends JFrame{
         public void actionPerformed(ActionEvent e) {
             cl.show(mainPanel, "6");
         }
+    }
+    
+    private ArrayList<Course> readDataFileIntoList(String filename) throws FileNotFoundException, IOException {
+        ArrayList<Course> courseList = new ArrayList<>();
+        BufferedReader reader = new BufferedReader(new FileReader(filename));
+        while (true) {
+            String line = reader.readLine();
+            if (line == null) {
+                break;
+            }
+            String[] data = line.split(",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)", -1);
+
+            String strContent = data[3];
+            String strPattern = "\"([^\"]*)\"";
+            String courseName = "";
+
+            if (strContent.charAt(0) == '\"') {
+                Pattern pattern = Pattern.compile(strPattern);
+                Matcher matcher = pattern.matcher(strContent);
+                while (matcher.find()) {
+                    courseName = matcher.group(1);
+                }
+            } else {
+                courseName = strContent;
+            }
+
+            int grade;
+            if (data[5].equals("")) {
+                grade = 0;
+            } else
+                grade = Integer.parseInt(data[5]);
+
+            Course course = new Course(Integer.parseInt(data[0]), Integer.parseInt(data[1]), data[2], courseName, Integer.parseInt(data[4]),
+                    grade);
+            courseList.add(course);
+        }
+        reader.close();
+        return courseList;
     }
 }
 
