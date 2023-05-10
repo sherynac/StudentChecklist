@@ -2,7 +2,7 @@
 <form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="prog2.GUI">
   <grid id="27dc6" binding="mainPanel" layout-manager="CardLayout" hgap="0" vgap="0">
     <constraints>
-      <xy x="20" y="20" width="1020" height="457"/>
+      <xy x="20" y="20" width="1324" height="457"/>
     </constraints>
     <properties/>
     <border type="none"/>
@@ -297,7 +297,7 @@
                       <text value="Show Subjects"/>
                     </properties>
                   </component>
-                  <component id="55970" class="javax.swing.JButton" binding="toGradesBtn1">
+                  <component id="55970" class="javax.swing.JButton" binding="exitBtn">
                     <constraints>
                       <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false">
                         <preferred-size width="-1" height="50"/>
@@ -314,7 +314,7 @@
                       <hideActionText class="java.lang.Boolean" value="false"/>
                     </clientProperties>
                   </component>
-                  <component id="45f43" class="javax.swing.JButton" binding="toEditGradesBtn1">
+                  <component id="45f43" class="javax.swing.JButton" binding="toChangeCourseBtn1">
                     <constraints>
                       <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false">
                         <preferred-size width="-1" height="50"/>
@@ -329,7 +329,7 @@
                       <text value="Change Course"/>
                     </properties>
                   </component>
-                  <component id="370f7" class="javax.swing.JButton" binding="toChangeCourseBtn1">
+                  <component id="370f7" class="javax.swing.JButton" binding="toEditGradesBtn1">
                     <constraints>
                       <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false">
                         <preferred-size width="-1" height="50"/>
@@ -344,7 +344,7 @@
                       <text value="Edit Grades"/>
                     </properties>
                   </component>
-                  <component id="cd8f6" class="javax.swing.JButton" binding="exitBtn">
+                  <component id="cd8f6" class="javax.swing.JButton" binding="toGradesBtn1">
                     <constraints>
                       <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false">
                         <preferred-size width="-1" height="50"/>
@@ -367,7 +367,7 @@
                 <properties/>
                 <border type="none"/>
                 <children>
-                  <grid id="3b27e" layout-manager="GridLayoutManager" row-count="2" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="0">
+                  <grid id="3b27e" layout-manager="GridLayoutManager" row-count="2" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="0">
                     <margin top="0" left="0" bottom="0" right="0"/>
                     <constraints>
                       <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
@@ -380,20 +380,15 @@
                     <children>
                       <component id="e90d5" class="javax.swing.JLabel">
                         <constraints>
-                          <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                          <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
                         </constraints>
                         <properties>
-                          <font size="30" style="1"/>
+                          <font size="35" style="1"/>
                           <text value="SCHOOL OF ACCOUNTANCY, MANAGEMENT, "/>
                           <verticalAlignment value="0"/>
                           <verticalTextPosition value="3"/>
                         </properties>
                       </component>
-                      <hspacer id="89a59">
-                        <constraints>
-                          <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-                        </constraints>
-                      </hspacer>
                       <vspacer id="999f0">
                         <constraints>
                           <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
@@ -406,18 +401,21 @@
                       <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
                     </constraints>
                     <properties/>
+                    <clientProperties>
+                      <html.disable class="java.lang.Boolean" value="true"/>
+                    </clientProperties>
                     <border type="none"/>
                     <children>
                       <component id="554af" class="javax.swing.JLabel">
                         <constraints/>
                         <properties>
-                          <font size="20"/>
+                          <font size="25"/>
                           <text value="Bachelor of Science in Computer Science"/>
                         </properties>
                       </component>
                     </children>
                   </grid>
-                  <grid id="f8a85" layout-manager="GridLayoutManager" row-count="2" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                  <grid id="f8a85" layout-manager="GridLayoutManager" row-count="2" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
                     <margin top="0" left="0" bottom="0" right="0"/>
                     <constraints>
                       <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
@@ -430,15 +428,10 @@
                           <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
                         </constraints>
                         <properties>
-                          <font size="30" style="1"/>
+                          <font size="35" style="1"/>
                           <text value="COMPUTING AND INFORMATION STUDIES"/>
                         </properties>
                       </component>
-                      <hspacer id="db001">
-                        <constraints>
-                          <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-                        </constraints>
-                      </hspacer>
                       <vspacer id="cb0ea">
                         <constraints>
                           <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
@@ -600,40 +593,29 @@
                   </component>
                 </children>
               </grid>
-              <grid id="6b39c" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+              <grid id="6b39c" binding="showSubjectsMain" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
                 <margin top="0" left="10" bottom="0" right="0"/>
                 <constraints border-constraint="Center"/>
                 <properties/>
                 <border type="none"/>
                 <children>
-                  <grid id="84b98" layout-manager="GridLayoutManager" row-count="2" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
-                    <margin top="0" left="0" bottom="0" right="0"/>
+                  <scrollpane id="e3a4b" binding="scrollPane1">
                     <constraints>
-                      <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                      <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
                     </constraints>
                     <properties/>
                     <border type="none"/>
                     <children>
-                      <hspacer id="14e6e">
-                        <constraints>
-                          <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-                        </constraints>
-                      </hspacer>
-                      <vspacer id="7847f">
-                        <constraints>
-                          <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
-                        </constraints>
-                      </vspacer>
-                      <component id="ccb9a" class="javax.swing.JLabel">
-                        <constraints>
-                          <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-                        </constraints>
+                      <component id="4a4ac" class="javax.swing.JTable" binding="showSubjectsTable">
+                        <constraints/>
                         <properties>
-                          <text value="show subjects"/>
+                          <doubleBuffered value="false"/>
+                          <dragEnabled value="false"/>
+                          <focusable value="false"/>
                         </properties>
                       </component>
                     </children>
-                  </grid>
+                  </scrollpane>
                 </children>
               </grid>
             </children>
@@ -1016,7 +998,7 @@
           </grid>
         </children>
       </grid>
-      <grid id="7f928" binding="editCoursePanel" layout-manager="GridLayoutManager" row-count="2" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+      <grid id="7f928" binding="changeCoursePanel" layout-manager="GridLayoutManager" row-count="2" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
         <margin top="0" left="0" bottom="0" right="0"/>
         <constraints>
           <card name="Card6"/>
@@ -1164,40 +1146,644 @@
                   </component>
                 </children>
               </grid>
-              <grid id="5203a" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+              <grid id="5203a" layout-manager="GridLayoutManager" row-count="2" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
                 <margin top="0" left="10" bottom="0" right="0"/>
                 <constraints border-constraint="Center"/>
-                <properties/>
+                <properties>
+                  <enabled value="true"/>
+                  <preferredSize width="780" height="150"/>
+                </properties>
                 <border type="none"/>
                 <children>
-                  <grid id="b8259" layout-manager="GridLayoutManager" row-count="2" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
-                    <margin top="0" left="0" bottom="0" right="0"/>
+                  <grid id="8975b" layout-manager="FlowLayout" hgap="5" vgap="5" flow-align="1">
                     <constraints>
-                      <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                      <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
                     </constraints>
                     <properties/>
                     <border type="none"/>
                     <children>
-                      <hspacer id="c2116">
-                        <constraints>
-                          <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-                        </constraints>
-                      </hspacer>
-                      <vspacer id="299fc">
-                        <constraints>
-                          <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
-                        </constraints>
-                      </vspacer>
-                      <component id="25707" class="javax.swing.JLabel">
-                        <constraints>
-                          <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-                        </constraints>
+                      <component id="870f6" class="javax.swing.JLabel">
+                        <constraints/>
                         <properties>
-                          <text value="edit course"/>
+                          <font name="Courier" size="20"/>
+                          <text value="In changing a course, you may choose any of the options below: "/>
                         </properties>
                       </component>
                     </children>
                   </grid>
+                  <grid id="12d08" layout-manager="GridLayoutManager" row-count="4" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                    <margin top="0" left="0" bottom="0" right="0"/>
+                    <constraints>
+                      <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                    </constraints>
+                    <properties/>
+                    <border type="none"/>
+                    <children>
+                      <component id="f588b" class="javax.swing.JLabel">
+                        <constraints>
+                          <grid row="1" column="0" row-span="2" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                        </constraints>
+                        <properties>
+                          <font name="Serif" size="20" style="1"/>
+                          <text value="Edit a Course"/>
+                        </properties>
+                      </component>
+                      <component id="bebb" class="javax.swing.JButton" binding="clickToAddAButton" default-binding="true">
+                        <constraints>
+                          <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false">
+                            <preferred-size width="-1" height="70"/>
+                          </grid>
+                        </constraints>
+                        <properties>
+                          <font name="Courier" size="15" style="1"/>
+                          <text value="Click to add a course"/>
+                        </properties>
+                      </component>
+                      <component id="5edd8" class="javax.swing.JLabel">
+                        <constraints>
+                          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                        </constraints>
+                        <properties>
+                          <font name="Serif" size="20" style="1"/>
+                          <text value="Add a Course"/>
+                        </properties>
+                      </component>
+                      <component id="85990" class="javax.swing.JButton" binding="clickToEditAButton" default-binding="true">
+                        <constraints>
+                          <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false">
+                            <preferred-size width="-1" height="70"/>
+                          </grid>
+                        </constraints>
+                        <properties>
+                          <font name="Courier" size="15" style="1"/>
+                          <text value="Click to edit a course"/>
+                        </properties>
+                      </component>
+                      <component id="6f2e6" class="javax.swing.JLabel">
+                        <constraints>
+                          <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                        </constraints>
+                        <properties>
+                          <font name="Serif" size="20" style="1"/>
+                          <text value="Remove a Course"/>
+                        </properties>
+                      </component>
+                      <component id="a93c6" class="javax.swing.JButton" binding="clickToRemoveAButton" default-binding="true">
+                        <constraints>
+                          <grid row="3" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false">
+                            <preferred-size width="-1" height="70"/>
+                          </grid>
+                        </constraints>
+                        <properties>
+                          <font name="Courier" size="15" style="1"/>
+                          <text value="Click to remove a course"/>
+                        </properties>
+                      </component>
+                    </children>
+                  </grid>
+                </children>
+              </grid>
+            </children>
+          </grid>
+        </children>
+      </grid>
+      <grid id="65900" binding="addCoursePanel" layout-manager="GridLayoutManager" row-count="2" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+        <margin top="0" left="0" bottom="0" right="0"/>
+        <constraints>
+          <card name="Card1"/>
+        </constraints>
+        <properties/>
+        <border type="none"/>
+        <children>
+          <grid id="ab51e" layout-manager="FlowLayout" hgap="5" vgap="5" flow-align="1">
+            <constraints>
+              <grid row="0" column="0" row-span="1" col-span="2" vsize-policy="0" hsize-policy="0" anchor="0" fill="3" indent="0" use-parent-layout="true"/>
+            </constraints>
+            <properties>
+              <background color="-15652531"/>
+            </properties>
+            <border type="none"/>
+            <children>
+              <component id="b1fe9" class="javax.swing.JLabel">
+                <constraints/>
+                <properties>
+                  <font name="Serif" size="20" style="1"/>
+                  <foreground color="-1"/>
+                  <horizontalAlignment value="2"/>
+                  <horizontalTextPosition value="2"/>
+                  <text value="STUDENT"/>
+                  <verticalAlignment value="3"/>
+                  <verticalTextPosition value="3"/>
+                </properties>
+              </component>
+              <component id="9d4e6" class="javax.swing.JLabel">
+                <constraints/>
+                <properties>
+                  <font name="Bradley Hand" size="18" style="1"/>
+                  <foreground color="-23296"/>
+                  <text value="Checklist"/>
+                  <verticalAlignment value="0"/>
+                  <verticalTextPosition value="0"/>
+                </properties>
+              </component>
+            </children>
+          </grid>
+          <vspacer id="93acb">
+            <constraints>
+              <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+            </constraints>
+          </vspacer>
+          <grid id="f959c" layout-manager="BorderLayout" hgap="-1" vgap="15">
+            <constraints>
+              <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties/>
+            <border type="bevel-lowered">
+              <color color="-15108926"/>
+            </border>
+            <children>
+              <grid id="ea75e" layout-manager="GridLayoutManager" row-count="5" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                <margin top="0" left="0" bottom="0" right="0"/>
+                <constraints border-constraint="West"/>
+                <properties>
+                  <background color="-15652531"/>
+                </properties>
+                <border type="none"/>
+                <children>
+                  <component id="2006d" class="javax.swing.JButton" binding="toSubjectsBtn6">
+                    <constraints>
+                      <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false">
+                        <preferred-size width="-1" height="50"/>
+                      </grid>
+                    </constraints>
+                    <properties>
+                      <alignmentX value="0.5"/>
+                      <background color="-1"/>
+                      <borderPainted value="false"/>
+                      <contentAreaFilled value="false"/>
+                      <enabled value="true"/>
+                      <focusCycleRoot value="false"/>
+                      <focusPainted value="true"/>
+                      <font name="Serif" size="15" style="1"/>
+                      <foreground color="-1"/>
+                      <hideActionText value="true"/>
+                      <horizontalAlignment value="0"/>
+                      <horizontalTextPosition value="0"/>
+                      <inheritsPopupMenu value="true"/>
+                      <opaque value="false"/>
+                      <rolloverEnabled value="true"/>
+                      <selected value="false"/>
+                      <text value="Show Subjects"/>
+                    </properties>
+                  </component>
+                  <component id="dce06" class="javax.swing.JButton">
+                    <constraints>
+                      <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false">
+                        <preferred-size width="-1" height="50"/>
+                      </grid>
+                    </constraints>
+                    <properties>
+                      <borderPainted value="false"/>
+                      <contentAreaFilled value="false"/>
+                      <font name="Serif" size="15" style="1"/>
+                      <foreground color="-1"/>
+                      <text value="5"/>
+                    </properties>
+                    <clientProperties>
+                      <hideActionText class="java.lang.Boolean" value="false"/>
+                    </clientProperties>
+                  </component>
+                  <component id="94ff1" class="javax.swing.JButton" binding="toChangeCourseBtn6">
+                    <constraints>
+                      <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false">
+                        <preferred-size width="-1" height="50"/>
+                      </grid>
+                    </constraints>
+                    <properties>
+                      <borderPainted value="false"/>
+                      <contentAreaFilled value="false"/>
+                      <font name="Serif" size="15" style="1"/>
+                      <foreground color="-1"/>
+                      <horizontalTextPosition value="0"/>
+                      <text value="Change Course"/>
+                    </properties>
+                  </component>
+                  <component id="f68f0" class="javax.swing.JButton" binding="toEditGradesBtn6">
+                    <constraints>
+                      <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false">
+                        <preferred-size width="-1" height="50"/>
+                      </grid>
+                    </constraints>
+                    <properties>
+                      <borderPainted value="false"/>
+                      <contentAreaFilled value="false"/>
+                      <font name="Serif" size="15" style="1"/>
+                      <foreground color="-1"/>
+                      <rolloverEnabled value="false"/>
+                      <text value="Edit Grades"/>
+                    </properties>
+                  </component>
+                  <component id="e222e" class="javax.swing.JButton" binding="toGradesBtn6">
+                    <constraints>
+                      <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false">
+                        <preferred-size width="-1" height="50"/>
+                      </grid>
+                    </constraints>
+                    <properties>
+                      <borderPainted value="false"/>
+                      <contentAreaFilled value="false"/>
+                      <focusable value="true"/>
+                      <font name="Serif" size="15" style="1"/>
+                      <foreground color="-1"/>
+                      <text value="Show Grades"/>
+                    </properties>
+                  </component>
+                </children>
+              </grid>
+              <grid id="b494b" layout-manager="GridLayoutManager" row-count="1" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                <margin top="0" left="10" bottom="0" right="0"/>
+                <constraints border-constraint="Center"/>
+                <properties>
+                  <enabled value="true"/>
+                  <preferredSize width="780" height="150"/>
+                </properties>
+                <border type="none"/>
+                <children>
+                  <component id="3c8c7" class="javax.swing.JLabel">
+                    <constraints>
+                      <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                    </constraints>
+                    <properties>
+                      <text value="add course"/>
+                    </properties>
+                  </component>
+                  <hspacer id="d2264">
+                    <constraints>
+                      <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                    </constraints>
+                  </hspacer>
+                </children>
+              </grid>
+            </children>
+          </grid>
+        </children>
+      </grid>
+      <grid id="8c8a9" binding="editCoursePanel" layout-manager="GridLayoutManager" row-count="2" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+        <margin top="0" left="0" bottom="0" right="0"/>
+        <constraints>
+          <card name="Card7"/>
+        </constraints>
+        <properties/>
+        <border type="none"/>
+        <children>
+          <grid id="5c4df" layout-manager="FlowLayout" hgap="5" vgap="5" flow-align="1">
+            <constraints>
+              <grid row="0" column="0" row-span="1" col-span="2" vsize-policy="0" hsize-policy="0" anchor="0" fill="3" indent="0" use-parent-layout="true"/>
+            </constraints>
+            <properties>
+              <background color="-15652531"/>
+            </properties>
+            <border type="none"/>
+            <children>
+              <component id="66b84" class="javax.swing.JLabel">
+                <constraints/>
+                <properties>
+                  <font name="Serif" size="20" style="1"/>
+                  <foreground color="-1"/>
+                  <horizontalAlignment value="2"/>
+                  <horizontalTextPosition value="2"/>
+                  <text value="STUDENT"/>
+                  <verticalAlignment value="3"/>
+                  <verticalTextPosition value="3"/>
+                </properties>
+              </component>
+              <component id="a6eb" class="javax.swing.JLabel">
+                <constraints/>
+                <properties>
+                  <font name="Bradley Hand" size="18" style="1"/>
+                  <foreground color="-23296"/>
+                  <text value="Checklist"/>
+                  <verticalAlignment value="0"/>
+                  <verticalTextPosition value="0"/>
+                </properties>
+              </component>
+            </children>
+          </grid>
+          <vspacer id="c6343">
+            <constraints>
+              <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+            </constraints>
+          </vspacer>
+          <grid id="c997d" layout-manager="BorderLayout" hgap="-1" vgap="15">
+            <constraints>
+              <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties/>
+            <border type="bevel-lowered">
+              <color color="-15108926"/>
+            </border>
+            <children>
+              <grid id="4204c" layout-manager="GridLayoutManager" row-count="5" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                <margin top="0" left="0" bottom="0" right="0"/>
+                <constraints border-constraint="West"/>
+                <properties>
+                  <background color="-15652531"/>
+                </properties>
+                <border type="none"/>
+                <children>
+                  <component id="f3944" class="javax.swing.JButton" binding="toSubjectsBtn7">
+                    <constraints>
+                      <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false">
+                        <preferred-size width="-1" height="50"/>
+                      </grid>
+                    </constraints>
+                    <properties>
+                      <alignmentX value="0.5"/>
+                      <background color="-1"/>
+                      <borderPainted value="false"/>
+                      <contentAreaFilled value="false"/>
+                      <enabled value="true"/>
+                      <focusCycleRoot value="false"/>
+                      <focusPainted value="true"/>
+                      <font name="Serif" size="15" style="1"/>
+                      <foreground color="-1"/>
+                      <hideActionText value="true"/>
+                      <horizontalAlignment value="0"/>
+                      <horizontalTextPosition value="0"/>
+                      <inheritsPopupMenu value="true"/>
+                      <opaque value="false"/>
+                      <rolloverEnabled value="true"/>
+                      <selected value="false"/>
+                      <text value="Show Subjects"/>
+                    </properties>
+                  </component>
+                  <component id="72ed6" class="javax.swing.JButton">
+                    <constraints>
+                      <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false">
+                        <preferred-size width="-1" height="50"/>
+                      </grid>
+                    </constraints>
+                    <properties>
+                      <borderPainted value="false"/>
+                      <contentAreaFilled value="false"/>
+                      <font name="Serif" size="15" style="1"/>
+                      <foreground color="-1"/>
+                      <text value="5"/>
+                    </properties>
+                    <clientProperties>
+                      <hideActionText class="java.lang.Boolean" value="false"/>
+                    </clientProperties>
+                  </component>
+                  <component id="9fdb2" class="javax.swing.JButton" binding="toChangeCourseBtn7">
+                    <constraints>
+                      <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false">
+                        <preferred-size width="-1" height="50"/>
+                      </grid>
+                    </constraints>
+                    <properties>
+                      <borderPainted value="false"/>
+                      <contentAreaFilled value="false"/>
+                      <font name="Serif" size="15" style="1"/>
+                      <foreground color="-1"/>
+                      <horizontalTextPosition value="0"/>
+                      <text value="Change Course"/>
+                    </properties>
+                  </component>
+                  <component id="53de1" class="javax.swing.JButton" binding="toEditGradesBtn7">
+                    <constraints>
+                      <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false">
+                        <preferred-size width="-1" height="50"/>
+                      </grid>
+                    </constraints>
+                    <properties>
+                      <borderPainted value="false"/>
+                      <contentAreaFilled value="false"/>
+                      <font name="Serif" size="15" style="1"/>
+                      <foreground color="-1"/>
+                      <rolloverEnabled value="false"/>
+                      <text value="Edit Grades"/>
+                    </properties>
+                  </component>
+                  <component id="11f21" class="javax.swing.JButton" binding="toGradesBtn7">
+                    <constraints>
+                      <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false">
+                        <preferred-size width="-1" height="50"/>
+                      </grid>
+                    </constraints>
+                    <properties>
+                      <borderPainted value="false"/>
+                      <contentAreaFilled value="false"/>
+                      <focusable value="true"/>
+                      <font name="Serif" size="15" style="1"/>
+                      <foreground color="-1"/>
+                      <text value="Show Grades"/>
+                    </properties>
+                  </component>
+                </children>
+              </grid>
+              <grid id="ab411" layout-manager="GridLayoutManager" row-count="1" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                <margin top="0" left="10" bottom="0" right="0"/>
+                <constraints border-constraint="Center"/>
+                <properties>
+                  <enabled value="true"/>
+                  <preferredSize width="780" height="150"/>
+                </properties>
+                <border type="none"/>
+                <children>
+                  <component id="5deaf" class="javax.swing.JLabel">
+                    <constraints>
+                      <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                    </constraints>
+                    <properties>
+                      <text value="edit course"/>
+                    </properties>
+                  </component>
+                  <hspacer id="27ba">
+                    <constraints>
+                      <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                    </constraints>
+                  </hspacer>
+                </children>
+              </grid>
+            </children>
+          </grid>
+        </children>
+      </grid>
+      <grid id="92a93" binding="removeCoursePanel" layout-manager="GridLayoutManager" row-count="2" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+        <margin top="0" left="0" bottom="0" right="0"/>
+        <constraints>
+          <card name="Card8"/>
+        </constraints>
+        <properties/>
+        <border type="none"/>
+        <children>
+          <grid id="ea121" layout-manager="FlowLayout" hgap="5" vgap="5" flow-align="1">
+            <constraints>
+              <grid row="0" column="0" row-span="1" col-span="2" vsize-policy="0" hsize-policy="0" anchor="0" fill="3" indent="0" use-parent-layout="true"/>
+            </constraints>
+            <properties>
+              <background color="-15652531"/>
+            </properties>
+            <border type="none"/>
+            <children>
+              <component id="b85d8" class="javax.swing.JLabel">
+                <constraints/>
+                <properties>
+                  <font name="Serif" size="20" style="1"/>
+                  <foreground color="-1"/>
+                  <horizontalAlignment value="2"/>
+                  <horizontalTextPosition value="2"/>
+                  <text value="STUDENT"/>
+                  <verticalAlignment value="3"/>
+                  <verticalTextPosition value="3"/>
+                </properties>
+              </component>
+              <component id="3433a" class="javax.swing.JLabel">
+                <constraints/>
+                <properties>
+                  <font name="Bradley Hand" size="18" style="1"/>
+                  <foreground color="-23296"/>
+                  <text value="Checklist"/>
+                  <verticalAlignment value="0"/>
+                  <verticalTextPosition value="0"/>
+                </properties>
+              </component>
+            </children>
+          </grid>
+          <vspacer id="ad5cb">
+            <constraints>
+              <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+            </constraints>
+          </vspacer>
+          <grid id="1ebb7" layout-manager="BorderLayout" hgap="-1" vgap="15">
+            <constraints>
+              <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties/>
+            <border type="bevel-lowered">
+              <color color="-15108926"/>
+            </border>
+            <children>
+              <grid id="ec619" layout-manager="GridLayoutManager" row-count="5" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                <margin top="0" left="0" bottom="0" right="0"/>
+                <constraints border-constraint="West"/>
+                <properties>
+                  <background color="-15652531"/>
+                </properties>
+                <border type="none"/>
+                <children>
+                  <component id="9d22c" class="javax.swing.JButton" binding="toSubjectsBtn8">
+                    <constraints>
+                      <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false">
+                        <preferred-size width="-1" height="50"/>
+                      </grid>
+                    </constraints>
+                    <properties>
+                      <alignmentX value="0.5"/>
+                      <background color="-1"/>
+                      <borderPainted value="false"/>
+                      <contentAreaFilled value="false"/>
+                      <enabled value="true"/>
+                      <focusCycleRoot value="false"/>
+                      <focusPainted value="true"/>
+                      <font name="Serif" size="15" style="1"/>
+                      <foreground color="-1"/>
+                      <hideActionText value="true"/>
+                      <horizontalAlignment value="0"/>
+                      <horizontalTextPosition value="0"/>
+                      <inheritsPopupMenu value="true"/>
+                      <opaque value="false"/>
+                      <rolloverEnabled value="true"/>
+                      <selected value="false"/>
+                      <text value="Show Subjects"/>
+                    </properties>
+                  </component>
+                  <component id="5185d" class="javax.swing.JButton">
+                    <constraints>
+                      <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false">
+                        <preferred-size width="-1" height="50"/>
+                      </grid>
+                    </constraints>
+                    <properties>
+                      <borderPainted value="false"/>
+                      <contentAreaFilled value="false"/>
+                      <font name="Serif" size="15" style="1"/>
+                      <foreground color="-1"/>
+                      <text value="5"/>
+                    </properties>
+                    <clientProperties>
+                      <hideActionText class="java.lang.Boolean" value="false"/>
+                    </clientProperties>
+                  </component>
+                  <component id="80033" class="javax.swing.JButton" binding="toChangeCourseBtn8">
+                    <constraints>
+                      <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false">
+                        <preferred-size width="-1" height="50"/>
+                      </grid>
+                    </constraints>
+                    <properties>
+                      <borderPainted value="false"/>
+                      <contentAreaFilled value="false"/>
+                      <font name="Serif" size="15" style="1"/>
+                      <foreground color="-1"/>
+                      <horizontalTextPosition value="0"/>
+                      <text value="Change Course"/>
+                    </properties>
+                  </component>
+                  <component id="79f09" class="javax.swing.JButton" binding="toEditGradesBtn8">
+                    <constraints>
+                      <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false">
+                        <preferred-size width="-1" height="50"/>
+                      </grid>
+                    </constraints>
+                    <properties>
+                      <borderPainted value="false"/>
+                      <contentAreaFilled value="false"/>
+                      <font name="Serif" size="15" style="1"/>
+                      <foreground color="-1"/>
+                      <rolloverEnabled value="false"/>
+                      <text value="Edit Grades"/>
+                    </properties>
+                  </component>
+                  <component id="add47" class="javax.swing.JButton" binding="toGradesBtn8">
+                    <constraints>
+                      <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false">
+                        <preferred-size width="-1" height="50"/>
+                      </grid>
+                    </constraints>
+                    <properties>
+                      <borderPainted value="false"/>
+                      <contentAreaFilled value="false"/>
+                      <focusable value="true"/>
+                      <font name="Serif" size="15" style="1"/>
+                      <foreground color="-1"/>
+                      <text value="Show Grades"/>
+                    </properties>
+                  </component>
+                </children>
+              </grid>
+              <grid id="f5476" layout-manager="GridLayoutManager" row-count="1" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                <margin top="0" left="10" bottom="0" right="0"/>
+                <constraints border-constraint="Center"/>
+                <properties>
+                  <enabled value="true"/>
+                  <preferredSize width="780" height="150"/>
+                </properties>
+                <border type="none"/>
+                <children>
+                  <component id="dc4e1" class="javax.swing.JLabel">
+                    <constraints>
+                      <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                    </constraints>
+                    <properties>
+                      <text value="remove course"/>
+                    </properties>
+                  </component>
+                  <hspacer id="39d83">
+                    <constraints>
+                      <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                    </constraints>
+                  </hspacer>
                 </children>
               </grid>
             </children>
