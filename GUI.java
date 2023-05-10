@@ -2,14 +2,14 @@ package prog2;
 
 import javax.swing.*;
 import java.awt.*;
-import java.io.*;
 import java.util.*;
+import java.io.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class GUI extends JFrame{
+public class GUI extends JFrame {
     private JPanel mainPanel;
     private JPanel filePanel;
     private JPanel homePanel;
@@ -17,15 +17,15 @@ public class GUI extends JFrame{
     private JTextField fileNameOutputTF;
     private JButton continueButton;
     private JButton toSubjectsBtn1;
-    private JButton toGradesBtn1;
-    private JButton toEditGradesBtn1;
-    private JButton toChangeCourseBtn1;
     private JButton exitBtn;
+    private JButton toChangeCourseBtn1;
+    private JButton toEditGradesBtn1;
+    private JButton toGradesBtn1;
     private JPanel menuPanel;
     private JPanel showSubjectsPanel;
     private JPanel showGradesPanel;
     private JPanel editGradesPanel;
-    private JPanel editCoursePanel;
+    private JPanel changeCoursePanel;
     private JButton toSubjectsBtn2;
     private JButton toChangeCourseBtn2;
     private JButton toEditGradesBtn2;
@@ -42,27 +42,50 @@ public class GUI extends JFrame{
     private JButton toChangeCourseBtn5;
     private JButton toEditGradesBtn5;
     private JButton toGradesBtn5;
+    private JPanel showSubjectsMain;
+    private JTable showSubjectsTable;
+    private JScrollPane scrollPane1;
+    private JButton clickToAddAButton;
+    private JButton clickToEditAButton;
+    private JButton clickToRemoveAButton;
+    private JPanel addCoursePanel;
+    private JPanel editCoursePanel;
+    private JPanel removeCoursePanel;
+    private JButton toSubjectsBtn6;
+    private JButton toChangeCourseBtn6;
+    private JButton toEditGradesBtn6;
+    private JButton toGradesBtn6;
+    private JButton toSubjectsBtn7;
+    private JButton toChangeCourseBtn7;
+    private JButton toEditGradesBtn7;
+    private JButton toGradesBtn7;
+    private JButton toSubjectsBtn8;
+    private JButton toChangeCourseBtn8;
+    private JButton toEditGradesBtn8;
+    private JButton toGradesBtn8;
     private toSubjectBtnHandler toSubjectHandler;
     private toGradesBtnHandler toGradesHandler;
     private toEditGradesBtnHandler toEditGradesHandler;
     private toChangeCourseBtnHandler toChangeCourseHandler;
     private CardLayout cl = new CardLayout();
     private String fileName;
-    private ArrayList<Course> listOfCourse= new ArrayList<>();
     private String problemDisplayer;
+    private ArrayList<Course> listOfCourse = new ArrayList<>();
+
     public static void main(String[] args) {
         GUI program;
 
-        try{
+        try {
             program = new GUI();
-        } catch (Exception ex){
+        } catch (Exception ex) {
             ex.printStackTrace();
         }
     }
-    public GUI(){
+
+    public GUI() {
 
         /*
-         * code for filePanel/getting the file name
+         * CODE FOR GET FILE MENU
          */
         continueButton.addActionListener(e -> {
             fileName = fileNameTF.getText();
@@ -76,8 +99,6 @@ public class GUI extends JFrame{
                     problemDisplayer = fileName + " cannot be found.";
                 } catch (IOException ex2) {
                     problemDisplayer = "There seems to be a problem with you input/output device";
-                } catch (ArrayIndexOutOfBoundsException ex3){
-                    problemDisplayer = "There seems to be a problem with reading your file";
                 }
             }
             if (problemDisplayer.equalsIgnoreCase("")) {
@@ -88,15 +109,24 @@ public class GUI extends JFrame{
             }
         });
 
+
+        /*
+         * code for filePanel/getting the file name
+         */
+
         mainPanel.setLayout(cl);
         mainPanel.add(filePanel, "1");
         mainPanel.add(homePanel, "2");
         mainPanel.add(showSubjectsPanel, "3");
         mainPanel.add(showGradesPanel, "4");
         mainPanel.add(editGradesPanel, "5");
-        mainPanel.add(editCoursePanel, "6");
+        mainPanel.add(changeCoursePanel, "6");
+        mainPanel.add(addCoursePanel,"7");
+        mainPanel.add(editCoursePanel, "8");
+        mainPanel.add(removeCoursePanel, "9");
 
         cl.show(mainPanel, "1");
+
 
         /*
          * add button handlers to every toSubject button
@@ -107,6 +137,9 @@ public class GUI extends JFrame{
         toSubjectsBtn3.addActionListener(toSubjectHandler);
         toSubjectsBtn4.addActionListener(toSubjectHandler);
         toSubjectsBtn5.addActionListener(toSubjectHandler);
+        toSubjectsBtn6.addActionListener(toSubjectHandler);
+        toSubjectsBtn7.addActionListener(toSubjectHandler);
+        toSubjectsBtn8.addActionListener(toSubjectHandler);
 
         /*
          * add button handlers to every toGrades button
@@ -117,6 +150,9 @@ public class GUI extends JFrame{
         toGradesBtn3.addActionListener(toGradesHandler);
         toGradesBtn4.addActionListener(toGradesHandler);
         toGradesBtn5.addActionListener(toGradesHandler);
+        toGradesBtn6.addActionListener(toGradesHandler);
+        toGradesBtn7.addActionListener(toGradesHandler);
+        toGradesBtn8.addActionListener(toGradesHandler);
 
         /*
          * add button handlers to every toEditGrades button
@@ -127,6 +163,9 @@ public class GUI extends JFrame{
         toEditGradesBtn3.addActionListener(toEditGradesHandler);
         toEditGradesBtn4.addActionListener(toEditGradesHandler);
         toEditGradesBtn5.addActionListener(toEditGradesHandler);
+        toEditGradesBtn6.addActionListener(toEditGradesHandler);
+        toEditGradesBtn7.addActionListener(toEditGradesHandler);
+        toEditGradesBtn8.addActionListener(toEditGradesHandler);
 
         /*
          * add button handlers to every toChangeCourse button
@@ -137,6 +176,13 @@ public class GUI extends JFrame{
         toChangeCourseBtn3.addActionListener(toChangeCourseHandler);
         toChangeCourseBtn4.addActionListener(toChangeCourseHandler);
         toChangeCourseBtn5.addActionListener(toChangeCourseHandler);
+        toChangeCourseBtn6.addActionListener(toChangeCourseHandler);
+        toChangeCourseBtn7.addActionListener(toChangeCourseHandler);
+        toChangeCourseBtn8.addActionListener(toChangeCourseHandler);
+
+        clickToAddAButton.addActionListener(e -> cl.show(mainPanel, "7"));
+        clickToEditAButton.addActionListener(e-> cl.show(mainPanel, "8"));
+        clickToRemoveAButton.addActionListener(e -> cl.show(mainPanel, "9"));
 
         setContentPane(mainPanel);
         pack();
@@ -148,30 +194,31 @@ public class GUI extends JFrame{
 
     }
 
-    public class toSubjectBtnHandler implements ActionListener{
+
+    public class toSubjectBtnHandler implements ActionListener {
         public void actionPerformed(ActionEvent e) {
             cl.show(mainPanel, "3");
         }
     }
 
-    public class toGradesBtnHandler implements ActionListener{
+    public class toGradesBtnHandler implements ActionListener {
         public void actionPerformed(ActionEvent e) {
             cl.show(mainPanel, "4");
         }
     }
 
-    public class toEditGradesBtnHandler implements ActionListener{
+    public class toEditGradesBtnHandler implements ActionListener {
         public void actionPerformed(ActionEvent e) {
             cl.show(mainPanel, "5");
         }
     }
 
-    public class toChangeCourseBtnHandler implements ActionListener{
+    public class toChangeCourseBtnHandler implements ActionListener {
         public void actionPerformed(ActionEvent e) {
             cl.show(mainPanel, "6");
         }
     }
-    
+
     private ArrayList<Course> readDataFileIntoList(String filename) throws FileNotFoundException, IOException {
         ArrayList<Course> courseList = new ArrayList<>();
         BufferedReader reader = new BufferedReader(new FileReader(filename));
