@@ -2,8 +2,12 @@ package prog2;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.*;
+import java.util.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class GUI extends JFrame{
     private JPanel mainPanel;
@@ -44,6 +48,7 @@ public class GUI extends JFrame{
     private toChangeCourseBtnHandler toChangeCourseHandler;
     private CardLayout cl = new CardLayout();
     private String fileName;
+    private ArrayList<Course> listOfCourse= new ArrayList<>();
     private String problemDisplayer;
     public static void main(String[] args) {
         GUI program;
@@ -71,6 +76,8 @@ public class GUI extends JFrame{
                     problemDisplayer = fileName + " cannot be found.";
                 } catch (IOException ex2) {
                     problemDisplayer = "There seems to be a problem with you input/output device";
+                } catch (ArrayIndexOutOfBoundsException ex3){
+                    problemDisplayer = "There seems to be a problem with reading your file";
                 }
             }
             if (problemDisplayer.equalsIgnoreCase("")) {
@@ -90,10 +97,6 @@ public class GUI extends JFrame{
         mainPanel.add(editCoursePanel, "6");
 
         cl.show(mainPanel, "1");
-
-        continueButton.addActionListener(e -> {
-            cl.show(mainPanel, "2");
-        });
 
         /*
          * add button handlers to every toSubject button
