@@ -1,14 +1,14 @@
-package proj;
+package prog2;
 
 public class Course implements Comparable<Course>{
     private int year;
-    private String term;
+    private int term;
     private String courseCode;
     private String courseName;
     private int units;
     private int grades;
 
-    public Course(int year, String term, String courseCode, String courseName, int units, int grades){
+    public Course(int year, int term, String courseCode, String courseName, int units, int grades){
         this.year = year;
         this.term = term;
         this.courseCode = courseCode;
@@ -26,7 +26,7 @@ public class Course implements Comparable<Course>{
         return year;
     }
 
-    public String getTerm(){
+    public int getTerm(){
         return term;
     }
 
