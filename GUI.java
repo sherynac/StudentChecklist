@@ -17,7 +17,7 @@ public class GUI extends JFrame {
     private JTextField fileNameOutputTF;
     private JButton continueButton;
     private JButton toSubjectsBtn1;
-    private JButton exitBtn;
+    private JButton toSortBtn1;
     private JButton toChangeCourseBtn1;
     private JButton toEditGradesBtn1;
     private JButton toGradesBtn1;
@@ -45,9 +45,6 @@ public class GUI extends JFrame {
     private JPanel showSubjectsMain;
     private JTable showSubjectsTable;
     private JScrollPane scrollPane1;
-    private JButton clickToAddAButton;
-    private JButton clickToEditAButton;
-    private JButton clickToRemoveAButton;
     private JPanel addCoursePanel;
     private JPanel editCoursePanel;
     private JPanel removeCoursePanel;
@@ -63,10 +60,34 @@ public class GUI extends JFrame {
     private JButton toChangeCourseBtn8;
     private JButton toEditGradesBtn8;
     private JButton toGradesBtn8;
+    private JButton toSortBtn2;
+    private JButton toSortBtn3;
+    private JButton toSortBtn4;
+    private JButton toSortBtn5;
+    private JButton toSortBtn6;
+    private JButton toSortBtn7;
+    private JButton toSortBtn8;
+    private JPanel sortGradesPanel;
+    private JButton toSubjectsBtn9;
+    private JButton toSortBtn9;
+    private JButton toChangeCourseBtn9;
+    private JButton toEditGradesBtn9;
+    private JButton toGradesBtn9;
+    private JButton clickToRemoveABtn;
+    private JButton clickToEditABtn;
+    private JButton clickToAddABtn;
+    private JComboBox comboBox1;
+    private JTextField textField1;
+    private JComboBox comboBox2;
+    private JButton updateButton;
+    private JTextField textField2;
+    private JTextField textField3;
+
     private toSubjectBtnHandler toSubjectHandler;
     private toGradesBtnHandler toGradesHandler;
     private toEditGradesBtnHandler toEditGradesHandler;
     private toChangeCourseBtnHandler toChangeCourseHandler;
+    private toSortGradesBtnHandler toSortHandler;
     private CardLayout cl = new CardLayout();
     private String fileName;
     private String problemDisplayer;
@@ -74,7 +95,6 @@ public class GUI extends JFrame {
 
     public static void main(String[] args) {
         GUI program;
-
         try {
             program = new GUI();
         } catch (Exception ex) {
@@ -124,6 +144,7 @@ public class GUI extends JFrame {
         mainPanel.add(addCoursePanel,"7");
         mainPanel.add(editCoursePanel, "8");
         mainPanel.add(removeCoursePanel, "9");
+        mainPanel.add(sortGradesPanel, "10");
 
         cl.show(mainPanel, "1");
 
@@ -140,6 +161,7 @@ public class GUI extends JFrame {
         toSubjectsBtn6.addActionListener(toSubjectHandler);
         toSubjectsBtn7.addActionListener(toSubjectHandler);
         toSubjectsBtn8.addActionListener(toSubjectHandler);
+        toSubjectsBtn9.addActionListener(toSubjectHandler);
 
         /*
          * add button handlers to every toGrades button
@@ -153,6 +175,7 @@ public class GUI extends JFrame {
         toGradesBtn6.addActionListener(toGradesHandler);
         toGradesBtn7.addActionListener(toGradesHandler);
         toGradesBtn8.addActionListener(toGradesHandler);
+        toGradesBtn9.addActionListener(toGradesHandler);
 
         /*
          * add button handlers to every toEditGrades button
@@ -166,6 +189,7 @@ public class GUI extends JFrame {
         toEditGradesBtn6.addActionListener(toEditGradesHandler);
         toEditGradesBtn7.addActionListener(toEditGradesHandler);
         toEditGradesBtn8.addActionListener(toEditGradesHandler);
+        toEditGradesBtn9.addActionListener(toEditGradesHandler);
 
         /*
          * add button handlers to every toChangeCourse button
@@ -179,10 +203,25 @@ public class GUI extends JFrame {
         toChangeCourseBtn6.addActionListener(toChangeCourseHandler);
         toChangeCourseBtn7.addActionListener(toChangeCourseHandler);
         toChangeCourseBtn8.addActionListener(toChangeCourseHandler);
+        toChangeCourseBtn9.addActionListener(toChangeCourseHandler);
 
-        clickToAddAButton.addActionListener(e -> cl.show(mainPanel, "7"));
-        clickToEditAButton.addActionListener(e-> cl.show(mainPanel, "8"));
-        clickToRemoveAButton.addActionListener(e -> cl.show(mainPanel, "9"));
+        /*
+         * add button handlers to every toSort buttons
+         */
+        toSortHandler = new toSortGradesBtnHandler();
+        toSortBtn1.addActionListener(toSortHandler);
+        toSortBtn2.addActionListener(toSortHandler);
+        toSortBtn3.addActionListener(toSortHandler);
+        toSortBtn4.addActionListener(toSortHandler);
+        toSortBtn5.addActionListener(toSortHandler);
+        toSortBtn6.addActionListener(toSortHandler);
+        toSortBtn7.addActionListener(toSortHandler);
+        toSortBtn8.addActionListener(toSortHandler);
+        toSortBtn9.addActionListener(toSortHandler);
+
+        clickToAddABtn.addActionListener(e -> cl.show(mainPanel, "7"));
+        clickToEditABtn.addActionListener(e-> cl.show(mainPanel, "8"));
+        clickToRemoveABtn.addActionListener(e -> cl.show(mainPanel, "9"));
 
         setContentPane(mainPanel);
         pack();
@@ -216,6 +255,12 @@ public class GUI extends JFrame {
     public class toChangeCourseBtnHandler implements ActionListener {
         public void actionPerformed(ActionEvent e) {
             cl.show(mainPanel, "6");
+        }
+    }
+
+    public class toSortGradesBtnHandler implements ActionListener {
+        public void actionPerformed(ActionEvent e) {
+            cl.show(mainPanel, "10");
         }
     }
 
