@@ -131,13 +131,23 @@ public class GUI extends JFrame {
             if (fileName.isEmpty()) {
                 problemDisplayer = "Make sure you have entered the file name";
             } else {
-                try {
-                    listOfCourses = readDataFileIntoList(fileName);
-                    problemDisplayer = "";
-                } catch (FileNotFoundException ex1) {
-                    problemDisplayer = fileName + " cannot be found.";
-                } catch (IOException ex2) {
-                    problemDisplayer = "There seems to be a problem with you input/output device";
+                // Use a case-sensitive file check
+                FileSystem fileSystem = FileSystems.getDefault();
+                Path path = fileSystem.getPath(fileName);
+                File file = path.toFile();
+
+                if (!file.exists()) {
+                    problemDisplayer = fileName + " does not exist.";
+
+                } else {
+                    try {
+                        listOfCourses = readDataFileIntoList(fileName);
+                        problemDisplayer = "";
+                    } catch (FileNotFoundException ex1) {
+                        problemDisplayer = fileName + " cannot be found.";
+                    } catch (IOException ex2) {
+                        problemDisplayer = "There seems to be a problem with you input/output device";
+                    }
                 }
             }
             if (problemDisplayer.equalsIgnoreCase("")) {
@@ -147,7 +157,6 @@ public class GUI extends JFrame {
                 fileNameOutputTF.setText(problemDisplayer);
             }
         });
-
 
         /*
          * code for filePanel/getting the file name
@@ -257,7 +266,7 @@ public class GUI extends JFrame {
         termCB.addItem("3 - Short");
 
         addUpdateBtn.addActionListener(e -> {
-            int year = yearCB.getSelectedIndex() + 1;
+              int year = yearCB.getSelectedIndex() + 1;
             int term = termCB.getSelectedIndex() + 1;
 
             /*
@@ -278,7 +287,7 @@ public class GUI extends JFrame {
              * code to read course title
              */
             String courseTitle = courseTitleTF.getText();
-            if (courseTitle.equalsIgnoreCase("")){
+            if (courseTitle.isEmpty()){
                 problemDisplayer = "Make sure you have entered a course title.";
             }
 
@@ -286,23 +295,32 @@ public class GUI extends JFrame {
              * code to read course code
              */
             String courseNo = courseNoTF.getText();
-            if (courseNo.equalsIgnoreCase("")){
+            if (courseNo.isEmpty()){
                 problemDisplayer = "Make sure you have entered a course number.";
             }
 
             Course addedCourse = new Course(year,term,courseNo, courseTitle, units, 0);
 
-            if (problemDisplayer.equalsIgnoreCase("")) {
-                JOptionPane.showMessageDialog(null, "Course has been successfully added." + "\nYear: " +
-                        yearInWord(addedCourse.getYear()) + "\nTerm: " + termInWord(addedCourse.getTerm()) + "\nCourse No.: " + addedCourse.getCourseCode()
-                        + "\nCourse Title: " + addedCourse.getCourseName() + "\nUnits: " + addedCourse.getUnits());
-            }
-            else {
+            if (problemDisplayer.isEmpty()) {
+                // Save the course to another CSV file
+                String outputFileName= "addedCourse.csv";
+                try{
+                    saveCourseToCSV(addedCourse, outputFileName);
+                    JOptionPane.showMessageDialog(null, "Course has been successfully added to 'addedCourse.csv'." + "\nYear: " +
+                            yearInWord(addedCourse.getYear()) + "\nTerm: " + termInWord(addedCourse.getTerm()) + "\nCourse No.: " + addedCourse.getCourseCode()
+                            + "\nCourse Title: " + addedCourse.getCourseName() + "\nUnits: " + addedCourse.getUnits());
+                }catch (IOException ex){
+                    problemDisplayer= "An error occurred while saving the course.";
+                    JOptionPane.showMessageDialog(null, problemDisplayer);
+                }
+            } else {
                 addProblemTF.setText(problemDisplayer);
             }
             courseNoTF.setText("");
             courseTitleTF.setText("");
             unitsTF.setText("");
+
+
         });
 
         /*
@@ -343,49 +361,69 @@ public class GUI extends JFrame {
         });
 
         editUpdateBtn.addActionListener(e -> {
-            int year = yearCB.getSelectedIndex() + 1;
-            int term = termCB.getSelectedIndex() + 1;
+            int selectedRow= courseTable.getSelectedRow();
+            if(selectedRow != -1) {
+                int year = yearCB.getSelectedIndex() + 1;
+                int term = termCB.getSelectedIndex() + 1;
 
-            String unitsInString = editUnitsTF.getText();
-            String courseNo = editCourseNoTF.getText();
-            String courseTitle = editCourseTitleTF.getText();
-
-            if (unitsInString.equals("") && courseNo.equals("") && courseTitle.equals("")){
-                problemDisplayer = "Make sure you have added something to edit.";
-            }
-
-            /*
-             * code to read units
-             */
-            int units = 1;
-            if (!unitsInString.equals("")) {
+                /*
+                 * code to read units
+                 */
+                int units = 1;
                 try {
-                    units = Integer.parseInt(editUnitsTF.getText());
-                    if (units < 1 || units > 12) {
-                        problemDisplayer = "Make sure that the units is from 1-12.";
-                    } else
-                        problemDisplayer = "";
-                } catch (NumberFormatException ex1) {
-                    problemDisplayer = "Make sure that the value for units is a number";
+                    units= Integer.parseInt(unitsTF.getText());
+                    if(units <1 || units >12){
+                        problemDisplayer= " Make sure that the units is from 1-12.";
+                }else
+                    problemDisplayer= " ";
+            }catch (NumberFormatException ex1){
+                    problemDisplayer= " Make sure that the value for units is a number";
                 }
-            }
 
-            Course addedCourse = new Course(year,term,courseNo, courseTitle, units, 0);
+                /*
+                 * code to read course title
+                 */
+                String courseTitle= courseTitleTF.getText();
+                if(courseTitle.equalsIgnoreCase(" ")){
+                    problemDisplayer= " Make sure you have entered a course title.";
+                }
 
-            if (problemDisplayer.equalsIgnoreCase("")) {
-                JOptionPane.showMessageDialog(null, "Course has been successfully edited." + "\nYear: " +
-                        yearInWord(addedCourse.getYear()) + "\nTerm: " + termInWord(addedCourse.getTerm()) + "\nCourse No.: " + addedCourse.getCourseCode()
-                        + "\nCourse Title: " + addedCourse.getCourseName() + "\nUnits: " + addedCourse.getUnits());
+                /*
+                 * code to read course code
+                 */
+                String courseNo= courseNoTF.getText();
+                if(courseNo.equalsIgnoreCase( " ")){
+                    problemDisplayer= " Make sure you have entered a course number. ";
+                }
+
+                Course editedCourse= new Course( year, term, courseNo , courseTitle, units, 0);
+
+                if( problemDisplayer.equalsIgnoreCase( " ")) {
+                    // Save the edited course to another CSV file
+                    String outputFileName = "editedCourse.csv";
+                    try {
+                        editAndSaveCourseToCSV(selectedRow, editedCourse, outputFileName);
+                        JOptionPane.showMessageDialog(null, " Course has been updated and saved" + "\nYear:" +
+                                yearInWord(editedCourse.getYear()) + "\nTerm:" + termInWord(editedCourse.getTerm()) + "\nCourse No.: " + editedCourse.getCourseCode()
+                                + "\nCourse Title: " + editedCourse.getCourseName() + " \nUnits: " + editedCourse.getUnits());
+                    } catch (IOException ex) {
+                        problemDisplayer = " An error occurred while saving the edited course. ";
+                        JOptionPane.showMessageDialog(null, problemDisplayer);
+                    }
+                } else {
+                    addProblemTF.setText(problemDisplayer);
+                    }
+                courseNoTF.setText(" ");
+                courseTitleTF.setText(" ");
+                unitsTF.setText(" ");
+                currCourseTitleTF.setText(" ");
+                curUnitsTF.setText(" ");
+
+                }else{
+                JOptionPane.showMessageDialog(null, "Please select a course from the table to edit.");
             }
-            else {
-                editCourseProblemTF.setText(problemDisplayer);
-            }
-            editCourseNoTF.setText("");
-            editCourseTitleTF.setText("");
-            editUnitsTF.setText("");
-            curUnitsTF.setText("");
-            currCourseTitleTF.setText("");
         });
+
 
         /*
          * code for remove a course
@@ -405,7 +443,37 @@ public class GUI extends JFrame {
         removeTermCB.addActionListener(removeCBHandlers);
 
         removeUpdateBtn.addActionListener(e -> {
+              int selectedRow= courseTable.getSelectedRow();
+            if(selectedRow != -1){
+                Course removedCourse= filteredCourses.get(selectedRow);
 
+                // Remove the course from the list
+                listOfCourses.remove(removedCourse);
+
+                // Save the updated data to another CSV file
+                try {
+                    saveCourseToCSV((Course) listOfCourses, fileName);
+                    JOptionPane.showMessageDialog(null, " Courses have been successfully removed. ");
+                }catch ( IOException ex) {
+                    problemDisplayer = " An error occurred while saving the updated course list.";
+                    JOptionPane.showMessageDialog(null, problemDisplayer);
+                }
+
+                // Refresh the filtered course list
+                filteredCourses=listOfCourses;
+
+                // Update the table
+                updateCourseTable(filteredCourses);
+
+                // Clear the selected row and text fields
+                courseTable.clearSelection();
+                currCourseTitleTF.setText(" ");
+                curUnitsTF.setText(" ");
+                removeProblemTF.setText(" ");
+             } else {
+                problemDisplayer= " Please select a course to remove.";
+                removeProblemTF.setText(problemDisplayer);
+            }
         });
 
         setContentPane(mainPanel);
@@ -567,6 +635,19 @@ public class GUI extends JFrame {
         }
         return result;
     }
+    
+     private void saveCourseToCSV(Course course, String fileName) throws IOException{
+        try(PrintWriter writer= new PrintWriter(new FileWriter(fileName, true))){
+            writer.println(course.getYear() + " , " + course.getTerm() + " , " + course.getCourseCode() + " , " + course.getUnits() + " , " + course.getGrades());
+        }
+    }
+
+    private void editAndSaveCourseToCSV(int rowIndex, Course course, String fileName) throws IOException{
+        List<String> lines= Files.readAllLines(Paths.get(fileName), StandardCharsets.UTF_8);
+        lines.set(rowIndex, course.getYear() + " , " + course.getCourseCode() + " , " + course.getCourseName() + " , " + course.getUnits() + " , " + course.getGrades());
+        Files.write(Paths.get(fileName) , lines , StandardCharsets.UTF_8);
+    }
+
 
 
 }
