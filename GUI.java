@@ -2,6 +2,8 @@ package prog2;
 
 import javax.swing.*;
 import java.awt.*;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.*;
 import java.util.*;
 import java.io.*;
 import java.awt.event.ActionEvent;
@@ -47,6 +49,7 @@ public class GUI extends JFrame {
     private JPanel showSubjectsMain;
     private JTable showSubjectsTable;
     private JScrollPane scrollPane1;
+    private JTable courseTable;
     private JPanel addCoursePanel;
     private JPanel editCoursePanel;
     private JPanel removeCoursePanel;
@@ -78,12 +81,12 @@ public class GUI extends JFrame {
     private JButton clickToRemoveABtn;
     private JButton clickToEditABtn;
     private JButton clickToAddABtn;
-    private JComboBox<String> yearCB;
+    private JComboBox<String> addYearCB;
     private JButton addUpdateBtn;
-    private JTextField courseTitleTF;
-    private JTextField unitsTF;
-    private JComboBox<String> termCB;
-    private JTextField courseNoTF;
+    private JTextField addCourseTitleTF;
+    private JTextField addUnitsTF;
+    private JComboBox<String> addTermCB;
+    private JTextField addCourseNoTF;
     private JTextField addProblemTF;
     private JComboBox<String> editYearCB;
     private JComboBox<String> editCourseNoCB;
@@ -100,7 +103,15 @@ public class GUI extends JFrame {
     private JTextField curUnitsTF;
     private JButton removeUpdateBtn;
     private JTextField removeProblemTF;
-
+    private JComboBox<String> editGYearCB;
+    private JComboBox<String> editGTermCB;
+    private JComboBox<String> editGCourseNoCB;
+    private JTextField editGradesTF;
+    private JTextField editGCourseTitleTF;
+    private JTextField editGProblemTF;
+    private JButton editGUpdateBtn;
+    private JTable sortGTable;
+    private JTextField removeCourseTitleTF;
     private toSubjectBtnHandler toSubjectHandler;
     private toGradesBtnHandler toGradesHandler;
     private toEditGradesBtnHandler toEditGradesHandler;
@@ -123,7 +134,7 @@ public class GUI extends JFrame {
 
     public GUI() {
 
-        /*
+        /**
          * CODE FOR GET FILE MENU
          */
         continueButton.addActionListener(e -> {
@@ -135,10 +146,8 @@ public class GUI extends JFrame {
                 FileSystem fileSystem = FileSystems.getDefault();
                 Path path = fileSystem.getPath(fileName);
                 File file = path.toFile();
-
                 if (!file.exists()) {
                     problemDisplayer = fileName + " does not exist.";
-
                 } else {
                     try {
                         listOfCourses = readDataFileIntoList(fileName);
@@ -149,32 +158,86 @@ public class GUI extends JFrame {
                         problemDisplayer = "There seems to be a problem with you input/output device";
                     }
                 }
-            }
-            if (problemDisplayer.equalsIgnoreCase("")) {
-                cl.show(mainPanel, "2");
-            }
-            else {
-                fileNameOutputTF.setText(problemDisplayer);
+                if (problemDisplayer.equalsIgnoreCase("")) {
+                    cl.show(mainPanel, "2");
+                } else {
+                    fileNameOutputTF.setText(problemDisplayer);
+                }
             }
         });
 
-        /*
-         * code for filePanel/getting the file name
+        /**
+         * INSERT CODE FOR SHOW SUBJECTS
          */
 
-        mainPanel.setLayout(cl);
-        mainPanel.add(filePanel, "1");
-        mainPanel.add(homePanel, "2");
-        mainPanel.add(showSubjectsPanel, "3");
-        mainPanel.add(showGradesPanel, "4");
-        mainPanel.add(editGradesPanel, "5");
-        mainPanel.add(changeCoursePanel, "6");
-        mainPanel.add(addCoursePanel,"7");
-        mainPanel.add(editCoursePanel, "8");
-        mainPanel.add(removeCoursePanel, "9");
-        mainPanel.add(sortGradesPanel, "10");
+        /**
+         * INSERT CODE FOR SHOW GRADES
+         */
 
-        cl.show(mainPanel, "1");
+        /**
+         * CODE FOR EDIT GRADES
+         */
+
+        setYearAndTermCB(editGYearCB,editGTermCB);
+
+        filterCourseNoCBHandlers2 editCourseNoCBHandler = new filterCourseNoCBHandlers2();
+        editGYearCB.addActionListener(editCourseNoCBHandler);
+        editGTermCB.addActionListener(editCourseNoCBHandler);
+
+        editGCourseNoCB.addActionListener(e -> {
+            String courseNoKey = "";
+            try {
+                courseNoKey = Objects.requireNonNull(editGCourseNoCB.getSelectedItem()).toString();
+            } catch (NullPointerException ex1) {
+                problemDisplayer = "Make sure to change year first before term";
+            }
+            if (!courseNoKey.equalsIgnoreCase("")) {
+                int index = findCourseIndex(filteredCourses, courseNoKey);
+                editGCourseTitleTF.setText(filteredCourses.get(index).getCourseName());
+            }
+        });
+
+        editGUpdateBtn.addActionListener(e -> {
+            int grade = 0;
+            int courseIndex = 0;
+            int oldGrade = 0;
+
+            try {
+                String gradeString = editGradesTF.getText();
+                if (gradeString.equals("")) {
+                    problemDisplayer = "Make sure you have entered a grade.";
+                }
+                grade = Integer.parseInt(gradeString);
+                if (grade < 65 || grade > 99) {
+                    problemDisplayer = "Grade should only be from 65 to 99";
+                } else
+                    problemDisplayer = "";
+            } catch (NumberFormatException ex1) {
+                problemDisplayer = "Entered grade is not cannot be parsed.";
+            }
+
+            String courseNoKey = "";
+            try {
+                courseNoKey = Objects.requireNonNull(editGCourseNoCB.getSelectedItem()).toString();
+            } catch (NullPointerException ex) {
+                problemDisplayer = "Make sure to change year first before term.";
+            }
+            if (!courseNoKey.equalsIgnoreCase("")) {
+                int index = findCourseIndex(filteredCourses, courseNoKey);
+                oldGrade = filteredCourses.get(index).getGrades();
+                filteredCourses.get(index).setGrades(grade);
+            }
+
+            if (problemDisplayer.equalsIgnoreCase("")) {
+                JOptionPane.showMessageDialog(null, "Grades have successfully updated." + "\nYear: " +
+                        yearInWord(filteredCourses.get(courseIndex).getYear()) + "\nTerm: " + termInWord(filteredCourses.get(courseIndex).getTerm()) +
+                        "\nCourse No.: " + filteredCourses.get(courseIndex).getCourseCode() + "\nCourse Title: " + filteredCourses.get(courseIndex).getCourseName()
+                        + "\nUnits: " + filteredCourses.get(courseIndex).getUnits() + "\nOld Grade: " + oldGrade + "\nUpdated Grade: " + grade);
+            } else {
+                editGProblemTF.setText(problemDisplayer);
+            }
+            editGradesTF.setText("");
+        });
 
 
         /*
@@ -248,33 +311,24 @@ public class GUI extends JFrame {
         toSortBtn9.addActionListener(toSortHandler);
 
         clickToAddABtn.addActionListener(e -> cl.show(mainPanel, "7"));
-        clickToEditABtn.addActionListener(e-> cl.show(mainPanel, "8"));
+        clickToEditABtn.addActionListener(e -> cl.show(mainPanel, "8"));
         clickToRemoveABtn.addActionListener(e -> cl.show(mainPanel, "9"));
 
-
-        /*
-         * code for add a course
+        /**
+         * CODE FOR ADD A COURSE
          */
-
-        yearCB.addItem("1 - First");
-        yearCB.addItem("2 - Second");
-        yearCB.addItem("3 - Third");
-        yearCB.addItem("4 - Fourth");
-
-        termCB.addItem("1 - First");
-        termCB.addItem("2 - Second");
-        termCB.addItem("3 - Short");
+        setYearAndTermCB(addYearCB, addTermCB);
 
         addUpdateBtn.addActionListener(e -> {
-              int year = yearCB.getSelectedIndex() + 1;
-            int term = termCB.getSelectedIndex() + 1;
+            int year = addYearCB.getSelectedIndex() + 1;
+            int term = addTermCB.getSelectedIndex() + 1;
 
             /*
              * code to read units
              */
             int units = 1;
             try {
-                units = Integer.parseInt(unitsTF.getText());
+                units = Integer.parseInt(addUnitsTF.getText());
                 if (units < 1 || units > 12) {
                     problemDisplayer = "Make sure that the units is from 1-12.";
                 } else
@@ -286,54 +340,46 @@ public class GUI extends JFrame {
             /*
              * code to read course title
              */
-            String courseTitle = courseTitleTF.getText();
-            if (courseTitle.isEmpty()){
+            String courseTitle = addCourseTitleTF.getText();
+            if (courseTitle.isEmpty()) {
                 problemDisplayer = "Make sure you have entered a course title.";
             }
 
             /*
              * code to read course code
              */
-            String courseNo = courseNoTF.getText();
-            if (courseNo.isEmpty()){
+            String courseNo = addCourseNoTF.getText();
+            if (courseNo.isEmpty()) {
                 problemDisplayer = "Make sure you have entered a course number.";
             }
 
-            Course addedCourse = new Course(year,term,courseNo, courseTitle, units, 0);
+            Course addedCourse = new Course(year, term,courseNo, courseTitle, units, 0);
 
             if (problemDisplayer.isEmpty()) {
                 // Save the course to another CSV file
-                String outputFileName= "addedCourse.csv";
-                try{
+                String outputFileName = "addedCourse.csv";
+                try {
                     saveCourseToCSV(addedCourse, outputFileName);
                     JOptionPane.showMessageDialog(null, "Course has been successfully added to 'addedCourse.csv'." + "\nYear: " +
                             yearInWord(addedCourse.getYear()) + "\nTerm: " + termInWord(addedCourse.getTerm()) + "\nCourse No.: " + addedCourse.getCourseCode()
                             + "\nCourse Title: " + addedCourse.getCourseName() + "\nUnits: " + addedCourse.getUnits());
-                }catch (IOException ex){
-                    problemDisplayer= "An error occurred while saving the course.";
+                } catch (IOException ex) {
+                    problemDisplayer = "An error occurred while saving the course.";
                     JOptionPane.showMessageDialog(null, problemDisplayer);
                 }
             } else {
                 addProblemTF.setText(problemDisplayer);
             }
-            courseNoTF.setText("");
-            courseTitleTF.setText("");
-            unitsTF.setText("");
-
-
+            addCourseNoTF.setText("");
+            addCourseTitleTF.setText("");
+            addUnitsTF.setText("");
         });
 
-        /*
-         * code for edit a course
+        /**
+         * CODE FOR EDIT A COURSE
          */
-        editYearCB.addItem("1 - First");
-        editYearCB.addItem("2 - Second");
-        editYearCB.addItem("3 - Third");
-        editYearCB.addItem("4 - Fourth");
 
-        editTermCB.addItem("1 - First");
-        editTermCB.addItem("2 - Second");
-        editTermCB.addItem("3 - Short");
+        setYearAndTermCB(editYearCB, editTermCB);
 
         filterCourseNoCBHandlers filterCBHandler = new filterCourseNoCBHandlers();
         editYearCB.addActionListener(filterCBHandler);
@@ -343,107 +389,109 @@ public class GUI extends JFrame {
             String courseNoKey = "";
             try {
                 courseNoKey = Objects.requireNonNull(editCourseNoCB.getSelectedItem()).toString();
-            } catch (NullPointerException ex){}
+            } catch (NullPointerException ex1){
+                problemDisplayer = "Make sure to change year first before term";
+            }
             if (!courseNoKey.equalsIgnoreCase("")) {
-                for (int i = 0; i < filteredCourses.size(); i++)
-                {
-                    Course courseNos = filteredCourses.get(i);
-                    if (courseNoKey.equals(courseNos.getCourseCode()))
-                    {
-                        int indexOfCourseNo = i;
-                        String courseTitle = filteredCourses.get(i).getCourseName();
-                        int units = filteredCourses.get(i).getUnits();
-                        currCourseTitleTF.setText(courseTitle);
-                        curUnitsTF.setText(units + "");
-                    }
-                }
+                int index = findCourseIndex(filteredCourses, courseNoKey);
+                currCourseTitleTF.setText(filteredCourses.get(index).getCourseName());
+                curUnitsTF.setText(filteredCourses.get(index).getUnits() + "");
             }
         });
 
         editUpdateBtn.addActionListener(e -> {
-            int selectedRow= courseTable.getSelectedRow();
-            if(selectedRow != -1) {
-                int year = yearCB.getSelectedIndex() + 1;
-                int term = termCB.getSelectedIndex() + 1;
+            int index = 0;
+            String courseNoKey = "";
 
-                /*
-                 * code to read units
-                 */
-                int units = 1;
-                try {
-                    units= Integer.parseInt(unitsTF.getText());
-                    if(units <1 || units >12){
-                        problemDisplayer= " Make sure that the units is from 1-12.";
-                }else
-                    problemDisplayer= " ";
-            }catch (NumberFormatException ex1){
-                    problemDisplayer= " Make sure that the value for units is a number";
-                }
-
-                /*
-                 * code to read course title
-                 */
-                String courseTitle= courseTitleTF.getText();
-                if(courseTitle.equalsIgnoreCase(" ")){
-                    problemDisplayer= " Make sure you have entered a course title.";
-                }
-
-                /*
-                 * code to read course code
-                 */
-                String courseNo= courseNoTF.getText();
-                if(courseNo.equalsIgnoreCase( " ")){
-                    problemDisplayer= " Make sure you have entered a course number. ";
-                }
-
-                Course editedCourse= new Course( year, term, courseNo , courseTitle, units, 0);
-
-                if( problemDisplayer.equalsIgnoreCase( " ")) {
-                    // Save the edited course to another CSV file
-                    String outputFileName = "editedCourse.csv";
-                    try {
-                        editAndSaveCourseToCSV(selectedRow, editedCourse, outputFileName);
-                        JOptionPane.showMessageDialog(null, " Course has been updated and saved" + "\nYear:" +
-                                yearInWord(editedCourse.getYear()) + "\nTerm:" + termInWord(editedCourse.getTerm()) + "\nCourse No.: " + editedCourse.getCourseCode()
-                                + "\nCourse Title: " + editedCourse.getCourseName() + " \nUnits: " + editedCourse.getUnits());
-                    } catch (IOException ex) {
-                        problemDisplayer = " An error occurred while saving the edited course. ";
-                        JOptionPane.showMessageDialog(null, problemDisplayer);
-                    }
-                } else {
-                    addProblemTF.setText(problemDisplayer);
-                    }
-                courseNoTF.setText(" ");
-                courseTitleTF.setText(" ");
-                unitsTF.setText(" ");
-                currCourseTitleTF.setText(" ");
-                curUnitsTF.setText(" ");
-
-                }else{
-                JOptionPane.showMessageDialog(null, "Please select a course from the table to edit.");
+            try {
+                courseNoKey = Objects.requireNonNull(editCourseNoCB.getSelectedItem()).toString();
+            } catch (NullPointerException ex1){
+                problemDisplayer = "Make sure to change year first before term";
             }
+            if (!courseNoKey.equalsIgnoreCase("")) {
+                index = findCourseIndex(filteredCourses, courseNoKey);
+            }
+
+            String unitsInString = editUnitsTF.getText();
+            String courseNo = editCourseNoTF.getText();
+            String courseTitle = editCourseTitleTF.getText();
+
+            if (unitsInString.equals("") && courseNo.equals("") && courseTitle.equals("")) {
+                problemDisplayer = "Make sure you have added something to edit.";
+            }
+
+            /*
+             * CODE TO EDIT UNITS
+             */
+            int units;
+            if (!unitsInString.equals("")) {
+                try {
+                    units = Integer.parseInt(editUnitsTF.getText());
+                    if (units < 1 || units > 12) {
+                        problemDisplayer = "Make sure that the units is from 1-12.";
+                    } else {
+                        filteredCourses.get(index).setUnits(units);
+                        problemDisplayer = "";
+                    }
+                } catch (NumberFormatException ex1) {
+                    problemDisplayer = "Make sure that the value for units is a number";
+                }
+            }
+
+            /*
+             * CODE TO EDIT COURSE TITLE
+             */
+            if (!courseTitle.isEmpty()){
+                filteredCourses.get(index).setCourseName(courseTitle);
+            }
+
+            /*
+             * CODE TO EDIT COURSE NAME
+             */
+            if (!courseNo.isEmpty()){
+                filteredCourses.get(index).setCourseCode(courseNo);
+            }
+
+            if (problemDisplayer.equalsIgnoreCase("")) {
+                JOptionPane.showMessageDialog(null, "Course has been successfully edited." + "\nYear: " +
+                        yearInWord(filteredCourses.get(index).getYear()) + "\nTerm: " + termInWord(filteredCourses.get(index).getTerm()) +
+                        "\nCourse No.: " + filteredCourses.get(index).getCourseCode() + "\nCourse Title: " + filteredCourses.get(index).getCourseName() +
+                        "\nUnits: " + filteredCourses.get(index).getUnits());
+            } else {
+                editCourseProblemTF.setText(problemDisplayer);
+            }
+            editCourseNoTF.setText("");
+            editCourseTitleTF.setText("");
+            editUnitsTF.setText("");
+            curUnitsTF.setText("");
+            currCourseTitleTF.setText("");
         });
 
-
-        /*
-         * code for remove a course
+        /**
+         * CODE FOR REMOVE A COURSE
          */
 
-        removeYearCB.addItem("1 - First");
-        removeYearCB.addItem("2 - Second");
-        removeYearCB.addItem("3 - Third");
-        removeYearCB.addItem("4 - Fourth");
-
-        removeTermCB.addItem("1 - First");
-        removeTermCB.addItem("2 - Second");
-        removeTermCB.addItem("3 - Short");
+        setYearAndTermCB(removeYearCB,removeTermCB);
 
         filterCourseNoCBHandlers1 removeCBHandlers = new filterCourseNoCBHandlers1();
         removeYearCB.addActionListener(removeCBHandlers);
         removeTermCB.addActionListener(removeCBHandlers);
 
+        removeCourseNoCB.addActionListener(e -> {
+            String courseNoKey = "";
+            try {
+                courseNoKey = Objects.requireNonNull(editCourseNoCB.getSelectedItem()).toString();
+            } catch (NullPointerException ex1) {
+                problemDisplayer = "Make sure to change year first before term";
+            }
+            if (!courseNoKey.equalsIgnoreCase("")) {
+                int index = findCourseIndex(filteredCourses, courseNoKey);
+                removeCourseTitleTF.setText(filteredCourses.get(index).getCourseName());
+            }
+        });
+
         removeUpdateBtn.addActionListener(e -> {
-              int selectedRow= courseTable.getSelectedRow();
+            int selectedRow= courseTable.getSelectedRow();
             if(selectedRow != -1){
                 Course removedCourse= filteredCourses.get(selectedRow);
 
@@ -452,9 +500,11 @@ public class GUI extends JFrame {
 
                 // Save the updated data to another CSV file
                 try {
-                    saveCourseToCSV((Course) listOfCourses, fileName);
+                    for (int index = 0; index < listOfCourses.size(); index++) {
+                        saveCourseToCSV(listOfCourses.get(index), fileName);
+                    }
                     JOptionPane.showMessageDialog(null, " Courses have been successfully removed. ");
-                }catch ( IOException ex) {
+                }catch (IOException ex) {
                     problemDisplayer = " An error occurred while saving the updated course list.";
                     JOptionPane.showMessageDialog(null, problemDisplayer);
                 }
@@ -462,19 +512,39 @@ public class GUI extends JFrame {
                 // Refresh the filtered course list
                 filteredCourses=listOfCourses;
 
-                // Update the table
-                updateCourseTable(filteredCourses);
+                // updateCourseTable(filteredCourses);
 
                 // Clear the selected row and text fields
                 courseTable.clearSelection();
                 currCourseTitleTF.setText(" ");
                 curUnitsTF.setText(" ");
                 removeProblemTF.setText(" ");
-             } else {
+            } else {
                 problemDisplayer= " Please select a course to remove.";
                 removeProblemTF.setText(problemDisplayer);
             }
         });
+
+        /**
+         * CODE FOR SORT GRADES
+         */
+
+
+        /**
+         * ADD TO MAIN PANEL CODES
+         */
+        mainPanel.setLayout(cl);
+        mainPanel.add(filePanel, "1");
+        mainPanel.add(homePanel, "2");
+        mainPanel.add(showSubjectsPanel, "3");
+        mainPanel.add(showGradesPanel, "4");
+        mainPanel.add(editGradesPanel, "5");
+        mainPanel.add(changeCoursePanel, "6");
+        mainPanel.add(addCoursePanel, "7");
+        mainPanel.add(editCoursePanel, "8");
+        mainPanel.add(removeCoursePanel, "9");
+        mainPanel.add(sortGradesPanel, "10");
+        cl.show(mainPanel, "1");
 
         setContentPane(mainPanel);
         pack();
@@ -483,35 +553,71 @@ public class GUI extends JFrame {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         setVisible(true);
+
     }
 
 
     public class toSubjectBtnHandler implements ActionListener {
         public void actionPerformed(ActionEvent e) {
+            editGradesTF.setText("");
+            addCourseNoTF.setText("");
+            addCourseTitleTF.setText("");
+            addUnitsTF.setText("");
+            editCourseNoTF.setText("");
+            editCourseTitleTF.setText("");
+            editUnitsTF.setText("");
             cl.show(mainPanel, "3");
         }
     }
 
     public class toGradesBtnHandler implements ActionListener {
         public void actionPerformed(ActionEvent e) {
+            editGradesTF.setText("");
+            addCourseNoTF.setText("");
+            addCourseTitleTF.setText("");
+            addUnitsTF.setText("");
+            editCourseNoTF.setText("");
+            editCourseTitleTF.setText("");
+            editUnitsTF.setText("");
             cl.show(mainPanel, "4");
         }
     }
 
     public class toEditGradesBtnHandler implements ActionListener {
         public void actionPerformed(ActionEvent e) {
+            editGradesTF.setText("");
+            addCourseNoTF.setText("");
+            addCourseTitleTF.setText("");
+            addUnitsTF.setText("");
+            editCourseNoTF.setText("");
+            editCourseTitleTF.setText("");
+            editUnitsTF.setText("");
             cl.show(mainPanel, "5");
         }
     }
 
     public class toChangeCourseBtnHandler implements ActionListener {
         public void actionPerformed(ActionEvent e) {
+            editGradesTF.setText("");
+            addCourseNoTF.setText("");
+            addCourseTitleTF.setText("");
+            addUnitsTF.setText("");
+            editCourseNoTF.setText("");
+            editCourseTitleTF.setText("");
+            editUnitsTF.setText("");
             cl.show(mainPanel, "6");
         }
     }
 
     public class toSortGradesBtnHandler implements ActionListener {
         public void actionPerformed(ActionEvent e) {
+            editGradesTF.setText("");
+            addCourseNoTF.setText("");
+            addCourseTitleTF.setText("");
+            addUnitsTF.setText("");
+            editCourseNoTF.setText("");
+            editCourseTitleTF.setText("");
+            editUnitsTF.setText("");
             cl.show(mainPanel, "10");
         }
     }
@@ -540,6 +646,40 @@ public class GUI extends JFrame {
                 removeCourseNoCB.addItem(filteredCourses.get(index).getCourseCode());
             }
         }
+    }
+
+    public class filterCourseNoCBHandlers2 implements ActionListener {
+        public void actionPerformed(ActionEvent e) {
+            int editGYear = editGYearCB.getSelectedIndex() + 1;
+            int editGTerm = editGTermCB.getSelectedIndex() + 1;
+
+            filteredCourses = listOfCourses.stream().filter(c -> c.getYear() == editGYear && c.getTerm() == editGTerm).collect(Collectors.toList());
+            editGCourseNoCB.removeAllItems();
+            for (int index = 0; index < filteredCourses.size(); index++) {
+                editGCourseNoCB.addItem(filteredCourses.get(index).getCourseCode());
+            }
+        }
+    }
+
+    private void setYearAndTermCB(JComboBox<String> yearCB, JComboBox<String> termCB) {
+        yearCB.addItem("1 - First");
+        yearCB.addItem("2 - Second");
+        yearCB.addItem("3 - Third");
+        yearCB.addItem("4 - Fourth");
+
+        termCB.addItem("1 - First");
+        termCB.addItem("2 - Second");
+        termCB.addItem("3 - Short");
+    }
+
+    public int findCourseIndex(List<Course> courses, String courseNoKey){
+        for (int i = 0; i < courses.size(); i++) {
+            Course courseNos = courses.get(i);
+            if (courseNoKey.equals(courseNos.getCourseCode())) {
+                return i;
+            }
+        }
+        return 0;
     }
 
     private ArrayList<Course> readDataFileIntoList(String filename) throws FileNotFoundException, IOException {
@@ -571,7 +711,6 @@ public class GUI extends JFrame {
                 grade = 0;
             } else
                 grade = Integer.parseInt(data[5]);
-
             Course course = new Course(Integer.parseInt(data[0]), Integer.parseInt(data[1]), data[2], courseName, Integer.parseInt(data[4]),
                     grade);
             courseList.add(course);
@@ -581,17 +720,18 @@ public class GUI extends JFrame {
     }
 
     static Scanner kbd = new Scanner(System.in);
-    public void showChecklistPerTerm(ArrayList<Course> courses, int y, int t){
-        for (byte year = 1; year <=y; year++){
-            for (byte term=1; term <=t; term++){
+
+    public void showChecklistPerTerm(ArrayList<Course> courses, int y, int t) {
+        for (byte year = 1; year <= y; year++) {
+            for (byte term = 1; term <= t; term++) {
                 System.out.println("------------------------------------------------------------------------------------------------------");
                 System.out.println("Year = " + yearInWord(year) + " Term = " + termInWord(term));
-                System.out.printf("%-13s%-55s%-6s%n","Course No", "Descriptive title", "Units");
+                System.out.printf("%-13s%-55s%-6s%n", "Course No", "Descriptive title", "Units");
                 System.out.println("------------------------------------------------------------------------------------------------------");
-                for (int index=0; index<courses.size(); index++){
-                    if(courses.get(index).getYear()==year && courses.get(index).getTerm()==term)
+                for (int index = 0; index < courses.size(); index++) {
+                    if (courses.get(index).getYear() == year && courses.get(index).getTerm() == term)
                         System.out.printf("%-13s%-55s%-5.1f%n",
-                                courses.get(index).getCourseCode(),courses.get(index).getCourseName(),courses.get(index).getUnits());
+                                courses.get(index).getCourseCode(), courses.get(index).getCourseName(), courses.get(index).getUnits());
                 }
                 System.out.println();
                 System.out.println("Press enter key to see courses for the next term.");
@@ -600,7 +740,7 @@ public class GUI extends JFrame {
         }
     }
 
-    public static String yearInWord(int year){
+    public static String yearInWord(int year) {
         String result = "";
 
         switch (year) {
@@ -619,7 +759,7 @@ public class GUI extends JFrame {
         return result;
     }
 
-    public static String termInWord(int term){
+    public static String termInWord(int term) {
         String result = "";
 
         switch (term) {
@@ -635,20 +775,17 @@ public class GUI extends JFrame {
         }
         return result;
     }
-    
-     private void saveCourseToCSV(Course course, String fileName) throws IOException{
-        try(PrintWriter writer= new PrintWriter(new FileWriter(fileName, true))){
+
+    private void saveCourseToCSV(Course course, String fileName) throws IOException {
+        try (PrintWriter writer = new PrintWriter(new FileWriter(fileName, true))) {
             writer.println(course.getYear() + " , " + course.getTerm() + " , " + course.getCourseCode() + " , " + course.getUnits() + " , " + course.getGrades());
         }
     }
 
-    private void editAndSaveCourseToCSV(int rowIndex, Course course, String fileName) throws IOException{
-        List<String> lines= Files.readAllLines(Paths.get(fileName), StandardCharsets.UTF_8);
+    private void editAndSaveCourseToCSV(int rowIndex, Course course, String fileName) throws IOException {
+        List<String> lines = Files.readAllLines(Paths.get(fileName), StandardCharsets.UTF_8);
         lines.set(rowIndex, course.getYear() + " , " + course.getCourseCode() + " , " + course.getCourseName() + " , " + course.getUnits() + " , " + course.getGrades());
-        Files.write(Paths.get(fileName) , lines , StandardCharsets.UTF_8);
+        Files.write(Paths.get(fileName), lines, StandardCharsets.UTF_8);
     }
-
-
-
 }
 

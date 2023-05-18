@@ -1543,7 +1543,7 @@
                           <text value="Year: "/>
                         </properties>
                       </component>
-                      <component id="bce6c" class="javax.swing.JComboBox" binding="yearCB">
+                      <component id="bce6c" class="javax.swing.JComboBox" binding="addYearCB">
                         <constraints>
                           <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="0" indent="0" use-parent-layout="false">
                             <preferred-size width="160" height="10"/>
@@ -1567,7 +1567,7 @@
                           <text value="Enter Course No.:"/>
                         </properties>
                       </component>
-                      <component id="3a0f5" class="javax.swing.JTextField" binding="courseNoTF">
+                      <component id="3a0f5" class="javax.swing.JTextField" binding="addCourseNoTF">
                         <constraints>
                           <grid row="2" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="0" indent="0" use-parent-layout="false">
                             <preferred-size width="160" height="25"/>
@@ -1575,7 +1575,7 @@
                         </constraints>
                         <properties/>
                       </component>
-                      <component id="8bedd" class="javax.swing.JComboBox" binding="termCB">
+                      <component id="8bedd" class="javax.swing.JComboBox" binding="addTermCB">
                         <constraints>
                           <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="0" indent="0" use-parent-layout="false">
                             <preferred-size width="160" height="10"/>
@@ -1591,7 +1591,7 @@
                           <text value="Enter Course Title: "/>
                         </properties>
                       </component>
-                      <component id="8795a" class="javax.swing.JTextField" binding="courseTitleTF">
+                      <component id="8795a" class="javax.swing.JTextField" binding="addCourseTitleTF">
                         <constraints>
                           <grid row="3" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
                             <preferred-size width="150" height="-1"/>
@@ -1607,7 +1607,7 @@
                           <text value="Enter Units:"/>
                         </properties>
                       </component>
-                      <component id="cdf9e" class="javax.swing.JTextField" binding="unitsTF">
+                      <component id="cdf9e" class="javax.swing.JTextField" binding="addUnitsTF">
                         <constraints>
                           <grid row="4" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
                             <preferred-size width="150" height="-1"/>
@@ -2225,7 +2225,7 @@
                       </component>
                     </children>
                   </grid>
-                  <grid id="61dc2" layout-manager="GridLayoutManager" row-count="3" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                  <grid id="61dc2" layout-manager="GridLayoutManager" row-count="4" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
                     <margin top="0" left="0" bottom="0" right="0"/>
                     <constraints>
                       <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
@@ -2275,6 +2275,24 @@
                         </constraints>
                         <properties>
                           <text value="Year: "/>
+                        </properties>
+                      </component>
+                      <component id="71b8e" class="javax.swing.JTextField" binding="removeCourseTitleTF">
+                        <constraints>
+                          <grid row="3" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                            <preferred-size width="150" height="-1"/>
+                          </grid>
+                        </constraints>
+                        <properties>
+                          <editable value="false"/>
+                        </properties>
+                      </component>
+                      <component id="2d967" class="javax.swing.JLabel">
+                        <constraints>
+                          <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                        </constraints>
+                        <properties>
+                          <text value="Course Title:"/>
                         </properties>
                       </component>
                     </children>

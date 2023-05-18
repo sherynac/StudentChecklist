@@ -45,4 +45,21 @@ public class Course implements Comparable<Course>{
     public int getGrades(){
         return grades;
     }
+
+    public void setGrades(int grades) {
+        this.grades = grades;
+    }
+
+    public void setUnits(int units) {
+        this.units = units;
+    }
+
+    public void setCourseCode(String courseCode){
+        this.courseCode = courseCode;
+    }
+
+    public void setCourseName(String courseName){
+        this.courseName = courseName;
+    }
+
 }
