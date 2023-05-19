@@ -520,7 +520,7 @@ public class GUI extends JFrame {
                 curUnitsTF.setText(" ");
                 removeProblemTF.setText(" ");
             } else {
-                problemDisplayer= " Please select a course to remove.";
+                problemDisplayer= "Please select a course to remove.";
                 removeProblemTF.setText(problemDisplayer);
             }
         });
