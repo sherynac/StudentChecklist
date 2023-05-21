@@ -1,6 +1,8 @@
 package prog2;
 
-public class Course implements Comparable<Course>{
+import java.io.Serializable;
+
+public class Course implements Comparable<Course>, Serializable {
     private int year;
     private int term;
     private String courseCode;
@@ -19,7 +21,18 @@ public class Course implements Comparable<Course>{
 
     @Override
     public int compareTo(Course o) {
-        return Integer.compare(grades, o.grades);
+        if (year > o.getYear()){
+            return 1;
+        } else if (year < o.getYear()) {
+            return -1;
+        } else if (term > o.getYear()) {
+            return 1;
+        } else if (term < o.getTerm()) {
+            return -1;
+        } else if (courseCode.compareToIgnoreCase(o.getCourseCode()) > 0){
+            return 1;
+        } else
+            return 0;
     }
 
     public int getYear(){

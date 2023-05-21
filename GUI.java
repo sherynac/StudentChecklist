@@ -94,9 +94,6 @@ public class GUI extends JFrame {
     private JTextField editUnitsTF;
     private JTextField editCourseProblemTF;
     private JButton editUpdateBtn;
-    private JComboBox<String> removeYearCB;
-    private JComboBox<String> removeCourseNoCB;
-    private JComboBox<String> removeTermCB;
     private JTextField currCourseTitleTF;
     private JTextField curUnitsTF;
     private JButton removeUpdateBtn;
@@ -109,15 +106,10 @@ public class GUI extends JFrame {
     private JTextField editGProblemTF;
     private JButton editGUpdateBtn;
     private JTable sortGTable;
-    private JTextField removeCourseTitleTF;
     private JTable showSubjectsTable;
     private JTable showGradesTable;
-    private toSubjectBtnHandler toSubjectHandler;
-    private toGradesBtnHandler toGradesHandler;
-    private toEditGradesBtnHandler toEditGradesHandler;
-    private toChangeCourseBtnHandler toChangeCourseHandler;
-    private toSortGradesBtnHandler toSortHandler;
-    private CardLayout cl = new CardLayout();
+    private JTable removeTable;
+    private final CardLayout cl = new CardLayout();
     private String fileName;
     private String problemDisplayer;
     private ArrayList<Course> listOfCourses = new ArrayList<>();
@@ -133,6 +125,72 @@ public class GUI extends JFrame {
     }
 
     public GUI() {
+
+        /**
+         * ADD BUTTON HANDLERS TO EVERY BUTTON
+         */
+        toSubjectBtnHandler toSubjectHandler = new toSubjectBtnHandler();
+        toSubjectsBtn1.addActionListener(toSubjectHandler);
+        toSubjectsBtn2.addActionListener(toSubjectHandler);
+        toSubjectsBtn3.addActionListener(toSubjectHandler);
+        toSubjectsBtn4.addActionListener(toSubjectHandler);
+        toSubjectsBtn5.addActionListener(toSubjectHandler);
+        toSubjectsBtn6.addActionListener(toSubjectHandler);
+        toSubjectsBtn7.addActionListener(toSubjectHandler);
+        toSubjectsBtn8.addActionListener(toSubjectHandler);
+        toSubjectsBtn9.addActionListener(toSubjectHandler);
+
+        toGradesBtnHandler toGradesHandler = new toGradesBtnHandler();
+        toGradesBtn1.addActionListener(toGradesHandler);
+        toGradesBtn2.addActionListener(toGradesHandler);
+        toGradesBtn3.addActionListener(toGradesHandler);
+        toGradesBtn4.addActionListener(toGradesHandler);
+        toGradesBtn5.addActionListener(toGradesHandler);
+        toGradesBtn6.addActionListener(toGradesHandler);
+        toGradesBtn7.addActionListener(toGradesHandler);
+        toGradesBtn8.addActionListener(toGradesHandler);
+        toGradesBtn9.addActionListener(toGradesHandler);
+
+        toEditGradesBtnHandler toEditGradesHandler = new toEditGradesBtnHandler();
+        toEditGradesBtn1.addActionListener(toEditGradesHandler);
+        toEditGradesBtn2.addActionListener(toEditGradesHandler);
+        toEditGradesBtn3.addActionListener(toEditGradesHandler);
+        toEditGradesBtn4.addActionListener(toEditGradesHandler);
+        toEditGradesBtn5.addActionListener(toEditGradesHandler);
+        toEditGradesBtn6.addActionListener(toEditGradesHandler);
+        toEditGradesBtn7.addActionListener(toEditGradesHandler);
+        toEditGradesBtn8.addActionListener(toEditGradesHandler);
+        toEditGradesBtn9.addActionListener(toEditGradesHandler);
+
+        toChangeCourseBtnHandler toChangeCourseHandler = new toChangeCourseBtnHandler();
+        toChangeCourseBtn1.addActionListener(toChangeCourseHandler);
+        toChangeCourseBtn2.addActionListener(toChangeCourseHandler);
+        toChangeCourseBtn3.addActionListener(toChangeCourseHandler);
+        toChangeCourseBtn4.addActionListener(toChangeCourseHandler);
+        toChangeCourseBtn5.addActionListener(toChangeCourseHandler);
+        toChangeCourseBtn6.addActionListener(toChangeCourseHandler);
+        toChangeCourseBtn7.addActionListener(toChangeCourseHandler);
+        toChangeCourseBtn8.addActionListener(toChangeCourseHandler);
+        toChangeCourseBtn9.addActionListener(toChangeCourseHandler);
+
+        toSortGradesBtnHandler toSortHandler = new toSortGradesBtnHandler();
+        toSortBtn1.addActionListener(toSortHandler);
+        toSortBtn2.addActionListener(toSortHandler);
+        toSortBtn3.addActionListener(toSortHandler);
+        toSortBtn4.addActionListener(toSortHandler);
+        toSortBtn5.addActionListener(toSortHandler);
+        toSortBtn6.addActionListener(toSortHandler);
+        toSortBtn7.addActionListener(toSortHandler);
+        toSortBtn8.addActionListener(toSortHandler);
+        toSortBtn9.addActionListener(toSortHandler);
+
+        clickToAddABtn.addActionListener(e -> cl.show(mainPanel, "7"));
+        clickToEditABtn.addActionListener(e -> cl.show(mainPanel, "8"));
+        clickToRemoveABtn.addActionListener(e -> {
+            updateTable(removeTable, listOfCourses, 5);
+            removeTable.setDefaultEditor(Object.class, null);
+            cl.show(mainPanel, "9");
+        });
 
         /**
          * CODE FOR GET FILE MENU
@@ -151,6 +209,7 @@ public class GUI extends JFrame {
                 } else {
                     try {
                         listOfCourses = readDataFileIntoList(fileName);
+                        Collections.sort(listOfCourses);
                         problemDisplayer = "";
                     } catch (FileNotFoundException ex1) {
                         problemDisplayer = fileName + " cannot be found.";
@@ -166,18 +225,13 @@ public class GUI extends JFrame {
             }
         });
 
-        /**
-         * CODE FOR SHOW SUBJECTS
-         */
-
 
         /**
          * CODE FOR EDIT GRADES
          */
+        setYearAndTermCB(editGYearCB, editGTermCB);
 
-        setYearAndTermCB(editGYearCB,editGTermCB);
-
-        filterCourseNoCBHandlers2 editCourseNoCBHandler = new filterCourseNoCBHandlers2();
+        filterEditGradesCourseNoCBHandlers editCourseNoCBHandler = new filterEditGradesCourseNoCBHandlers();
         editGYearCB.addActionListener(editCourseNoCBHandler);
         editGTermCB.addActionListener(editCourseNoCBHandler);
 
@@ -237,93 +291,16 @@ public class GUI extends JFrame {
             }
         });
 
-
-        /*
-         * add button handlers to every toSubject button
-         */
-        toSubjectHandler = new toSubjectBtnHandler();
-        toSubjectsBtn1.addActionListener(toSubjectHandler);
-        toSubjectsBtn2.addActionListener(toSubjectHandler);
-        toSubjectsBtn3.addActionListener(toSubjectHandler);
-        toSubjectsBtn4.addActionListener(toSubjectHandler);
-        toSubjectsBtn5.addActionListener(toSubjectHandler);
-        toSubjectsBtn6.addActionListener(toSubjectHandler);
-        toSubjectsBtn7.addActionListener(toSubjectHandler);
-        toSubjectsBtn8.addActionListener(toSubjectHandler);
-        toSubjectsBtn9.addActionListener(toSubjectHandler);
-
-        /*
-         * add button handlers to every toGrades button
-         */
-        toGradesHandler = new toGradesBtnHandler();
-        toGradesBtn1.addActionListener(toGradesHandler);
-        toGradesBtn2.addActionListener(toGradesHandler);
-        toGradesBtn3.addActionListener(toGradesHandler);
-        toGradesBtn4.addActionListener(toGradesHandler);
-        toGradesBtn5.addActionListener(toGradesHandler);
-        toGradesBtn6.addActionListener(toGradesHandler);
-        toGradesBtn7.addActionListener(toGradesHandler);
-        toGradesBtn8.addActionListener(toGradesHandler);
-        toGradesBtn9.addActionListener(toGradesHandler);
-
-        /*
-         * add button handlers to every toEditGrades button
-         */
-        toEditGradesHandler = new toEditGradesBtnHandler();
-        toEditGradesBtn1.addActionListener(toEditGradesHandler);
-        toEditGradesBtn2.addActionListener(toEditGradesHandler);
-        toEditGradesBtn3.addActionListener(toEditGradesHandler);
-        toEditGradesBtn4.addActionListener(toEditGradesHandler);
-        toEditGradesBtn5.addActionListener(toEditGradesHandler);
-        toEditGradesBtn6.addActionListener(toEditGradesHandler);
-        toEditGradesBtn7.addActionListener(toEditGradesHandler);
-        toEditGradesBtn8.addActionListener(toEditGradesHandler);
-        toEditGradesBtn9.addActionListener(toEditGradesHandler);
-
-        /*
-         * add button handlers to every toChangeCourse button
-         */
-        toChangeCourseHandler = new toChangeCourseBtnHandler();
-        toChangeCourseBtn1.addActionListener(toChangeCourseHandler);
-        toChangeCourseBtn2.addActionListener(toChangeCourseHandler);
-        toChangeCourseBtn3.addActionListener(toChangeCourseHandler);
-        toChangeCourseBtn4.addActionListener(toChangeCourseHandler);
-        toChangeCourseBtn5.addActionListener(toChangeCourseHandler);
-        toChangeCourseBtn6.addActionListener(toChangeCourseHandler);
-        toChangeCourseBtn7.addActionListener(toChangeCourseHandler);
-        toChangeCourseBtn8.addActionListener(toChangeCourseHandler);
-        toChangeCourseBtn9.addActionListener(toChangeCourseHandler);
-
-        /*
-         * add button handlers to every toSort buttons
-         */
-        toSortHandler = new toSortGradesBtnHandler();
-        toSortBtn1.addActionListener(toSortHandler);
-        toSortBtn2.addActionListener(toSortHandler);
-        toSortBtn3.addActionListener(toSortHandler);
-        toSortBtn4.addActionListener(toSortHandler);
-        toSortBtn5.addActionListener(toSortHandler);
-        toSortBtn6.addActionListener(toSortHandler);
-        toSortBtn7.addActionListener(toSortHandler);
-        toSortBtn8.addActionListener(toSortHandler);
-        toSortBtn9.addActionListener(toSortHandler);
-
-        clickToAddABtn.addActionListener(e -> cl.show(mainPanel, "7"));
-        clickToEditABtn.addActionListener(e -> cl.show(mainPanel, "8"));
-        clickToRemoveABtn.addActionListener(e -> cl.show(mainPanel, "9"));
-
         /**
          * CODE FOR ADD A COURSE
          */
         setYearAndTermCB(addYearCB, addTermCB);
-
         addUpdateBtn.addActionListener(e -> {
+            // read year and term
             int year = addYearCB.getSelectedIndex() + 1;
             int term = addTermCB.getSelectedIndex() + 1;
 
-            /*
-             * code to read units
-             */
+            // read units
             int units = 1;
             try {
                 units = Integer.parseInt(addUnitsTF.getText());
@@ -333,23 +310,22 @@ public class GUI extends JFrame {
                 problemDisplayer = "Make sure that the value for units is a number";
             }
 
-            /*
-             * code to read course title
-             */
+            // read course title
             String courseTitle = addCourseTitleTF.getText();
             if (courseTitle.equalsIgnoreCase("")) {
                 problemDisplayer = "Make sure you have entered a course title.";
             }
 
-            /*
-             * code to read course code
-             */
+            // read course number
             String courseNo = addCourseNoTF.getText();
             if (courseNo.equalsIgnoreCase("")) {
                 problemDisplayer = "Make sure you have entered a course number.";
             }
 
-            Course addedCourse = new Course(year, term,courseNo, courseTitle, units, 0);
+            // create new course
+            Course addedCourse = new Course(year, term, courseNo, courseTitle, units, 0);
+            listOfCourses.add(addedCourse);
+            Collections.sort(listOfCourses);
 
             if (problemDisplayer.isEmpty()) {
                 addProblemTF.setText("");
@@ -359,8 +335,8 @@ public class GUI extends JFrame {
                     problemDisplayer = "Course cannot be saved";
                 }
                 JOptionPane.showMessageDialog(null, "Course has been successfully added to " + fileName + "\nYear: " +
-                            yearInWord(addedCourse.getYear()) + "\nTerm: " + termInWord(addedCourse.getTerm()) + "\nCourse No.: " + addedCourse.getCourseCode()
-                            + "\nCourse Title: " + addedCourse.getCourseName() + "\nUnits: " + addedCourse.getUnits());
+                        yearInWord(addedCourse.getYear()) + "\nTerm: " + termInWord(addedCourse.getTerm()) + "\nCourse No.: " + addedCourse.getCourseCode()
+                        + "\nCourse Title: " + addedCourse.getCourseName() + "\nUnits: " + addedCourse.getUnits());
             } else {
                 addProblemTF.setText(problemDisplayer);
                 addCourseNoTF.setText("");
@@ -373,10 +349,9 @@ public class GUI extends JFrame {
         /**
          * CODE FOR EDIT A COURSE
          */
-
         setYearAndTermCB(editYearCB, editTermCB);
 
-        filterCourseNoCBHandlers filterCBHandler = new filterCourseNoCBHandlers();
+        filterEditCourseCourseNoCBHandlers filterCBHandler = new filterEditCourseCourseNoCBHandlers();
         editYearCB.addActionListener(filterCBHandler);
         editTermCB.addActionListener(filterCBHandler);
 
@@ -384,7 +359,7 @@ public class GUI extends JFrame {
             String courseNoKey = "";
             try {
                 courseNoKey = Objects.requireNonNull(editCourseNoCB.getSelectedItem()).toString();
-            } catch (NullPointerException ex1){
+            } catch (NullPointerException ex1) {
                 problemDisplayer = "Make sure to change year first before term";
             }
             if (!courseNoKey.equalsIgnoreCase("")) {
@@ -396,16 +371,14 @@ public class GUI extends JFrame {
 
         editUpdateBtn.addActionListener(e -> {
             String courseNoKey = "";
-            PrintWriter editFile;
 
             try {
                 courseNoKey = Objects.requireNonNull(editCourseNoCB.getSelectedItem()).toString();
-            } catch (NullPointerException ex1){
+            } catch (NullPointerException ex1) {
                 problemDisplayer = "Make sure to change year first before term";
             }
 
             int index = findCourseIndex(listOfCourses, courseNoKey);
-
             String unitsInString = editUnitsTF.getText();
             String courseNo = editCourseNoTF.getText();
             String courseTitle = editCourseTitleTF.getText();
@@ -414,9 +387,6 @@ public class GUI extends JFrame {
                 problemDisplayer = "Make sure you have added something to edit.";
             }
 
-            /*
-             * CODE TO EDIT UNITS
-             */
             int units;
             if (!unitsInString.equals("")) {
                 try {
@@ -432,23 +402,17 @@ public class GUI extends JFrame {
                 }
             }
 
-            /*
-             * CODE TO EDIT COURSE TITLE
-             */
-            if (!courseTitle.isEmpty()){
+            if (!courseTitle.isEmpty()) {
                 listOfCourses.get(index).setCourseName(courseTitle);
             }
 
-            /*
-             * CODE TO EDIT COURSE NAME
-             */
-            if (!courseNo.isEmpty()){
+            if (!courseNo.isEmpty()) {
                 listOfCourses.get(index).setCourseCode(courseNo);
             }
 
             try {
                 editAndSaveCourseToCSV(index, listOfCourses.get(index), fileName);
-            } catch (IOException ex1){
+            } catch (IOException ex1) {
                 problemDisplayer = "Problem with saving the file";
             }
 
@@ -472,57 +436,37 @@ public class GUI extends JFrame {
         /**
          * CODE FOR REMOVE A COURSE
          */
-
-        setYearAndTermCB(removeYearCB,removeTermCB);
-
-        filterCourseNoCBHandlers1 removeCBHandlers = new filterCourseNoCBHandlers1();
-        removeYearCB.addActionListener(removeCBHandlers);
-        removeTermCB.addActionListener(removeCBHandlers);
-
-        removeCourseNoCB.addActionListener(e -> {
-            String courseNoKey = "";
-            try {
-                courseNoKey = Objects.requireNonNull(removeCourseNoCB.getSelectedItem()).toString();
-            } catch (NullPointerException ex1) {
-                problemDisplayer = "Make sure to change year first before term";
-            }
-            if (!courseNoKey.equalsIgnoreCase("")) {
-                int index = findCourseIndex(filteredCourses, courseNoKey);
-                removeCourseTitleTF.setText(filteredCourses.get(index).getCourseName());
-            }
-        });
-
         removeUpdateBtn.addActionListener(e -> {
-            String courseNoKey = "";
+            int selectedRow = removeTable.getSelectedRow();
+            if (selectedRow != -1) {
+                Course removedCourse = listOfCourses.get(selectedRow);
 
-            try {
-                courseNoKey = Objects.requireNonNull(removeCourseNoCB.getSelectedItem()).toString();
-            } catch (NullPointerException ex1) {
-                problemDisplayer = "Make sure to change year first before term";
-            }
+                // Remove the course from the list
+                listOfCourses.remove(removedCourse);
 
-            int index = findCourseIndex(listOfCourses, courseNoKey);
-            System.out.println(index);
-            listOfCourses.remove(index);
-
-            if (problemDisplayer.isEmpty()){
-                removeProblemTF.setText("");
+                // Save the updated data to another CSV file
                 try {
-                    for (int i = 0; i < listOfCourses.size(); i++){
-                        overwriteCSV(listOfCourses.get(i), fileName);
-                    }
-                    JOptionPane.showMessageDialog(null, "Courses have been successfully removed.");
-                } catch (IOException ex1){
-                    problemDisplayer = "An error occurred while saving the update course list";
+                    save(fileName, listOfCourses);
+                    JOptionPane.showMessageDialog(null, " Courses have been successfully removed. ");
+                } catch (IOException ex) {
+                    problemDisplayer = " An error occurred while saving the updated course list.";
                     JOptionPane.showMessageDialog(null, problemDisplayer);
                 }
-            } else {
-                removeProblemTF.setText(problemDisplayer);
-                removeCourseTitleTF.setText("");
-                problemDisplayer = "";
-            }
-        });
 
+                // Update the table
+                updateTable(removeTable, listOfCourses, 5);
+
+                // Clear the selected row and text fields
+                removeTable.clearSelection();
+                currCourseTitleTF.setText(" ");
+                curUnitsTF.setText(" ");
+                removeProblemTF.setText(" ");
+            } else {
+                problemDisplayer = " Please select a course to remove.";
+                removeProblemTF.setText(problemDisplayer);
+            }
+
+        });
 
 
         /**
@@ -554,28 +498,47 @@ public class GUI extends JFrame {
         setVisible(true);
 
     }
-    
+
+    private ArrayList<Course> readDataFileIntoList(String filename) throws IOException {
+        ArrayList<Course> courseList = new ArrayList<>();
+        BufferedReader reader = new BufferedReader(new FileReader(filename));
+        while (true) {
+            String line = reader.readLine();
+            if (line == null) {
+                break;
+            }
+            String[] data = line.split(",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)", -1);
+
+            String strContent = data[3];
+            String strPattern = "\"([^\"]*)\"";
+            String courseName = "";
+
+            if (strContent.charAt(0) == '\"') {
+                Pattern pattern = Pattern.compile(strPattern);
+                Matcher matcher = pattern.matcher(strContent);
+                while (matcher.find()) {
+                    courseName = matcher.group(1);
+                }
+            } else {
+                courseName = strContent;
+            }
+
+            int grade;
+            if (data[5].equals("")) {
+                grade = 0;
+            } else
+                grade = Integer.parseInt(data[5]);
+            Course course = new Course(Integer.parseInt(data[0]), Integer.parseInt(data[1]), data[2], courseName, Integer.parseInt(data[4]),
+                    grade);
+            courseList.add(course);
+        }
+        reader.close();
+        return courseList;
+    }
+
     public class toSubjectBtnHandler implements ActionListener {
         public void actionPerformed(ActionEvent e) {
-            ArrayList<Course> subjects = new ArrayList<>();
-            try {
-                subjects = readDataFileIntoList(fileName);
-            } catch (IOException ex1) {
-                problemDisplayer = "There seems to be a problem in reading the file";
-            }
-
-            Object[][] data = new Object[subjects.size()][5];
-            for (int row = 0; row < subjects.size(); row++) {
-                data[row][0] = yearInWord(subjects.get(row).getYear());
-                data[row][1] = termInWord(subjects.get(row).getTerm());
-                data[row][2] = subjects.get(row).getCourseCode();
-                data[row][3] = subjects.get(row).getCourseName();
-                data[row][4] = subjects.get(row).getUnits();
-            }
-
-            String[] colHeaders = {"Year", "Term", "Course No.", "Course Title", "Units"};
-            showSubjectsTable.setModel(new DefaultTableModel(data, colHeaders));
-
+            updateTable(showSubjectsTable, listOfCourses,5);
             editGradesTF.setText("");
             addCourseNoTF.setText("");
             addCourseTitleTF.setText("");
@@ -589,37 +552,7 @@ public class GUI extends JFrame {
 
     public class toGradesBtnHandler implements ActionListener {
         public void actionPerformed(ActionEvent e) {
-
-            ArrayList<Course> grades = new ArrayList<>();
-            try {
-                grades = readDataFileIntoList(fileName);
-            } catch (IOException ex1) {
-                problemDisplayer = "There seems to be a problem in reading the file";
-            }
-
-            Object[][] data = new Object[grades.size()][5];
-            for (int row = 0; row < grades.size(); row++) {
-                data[row][0] = yearInWord(grades.get(row).getYear());
-                data[row][1] = termInWord(grades.get(row).getTerm());
-                data[row][2] = grades.get(row).getCourseCode();
-                data[row][3] = grades.get(row).getCourseName();
-                data[row][4] = grades.get(row).getUnits();
-            }
-            /**
-             * CODE FOR SHOW GRADES
-             */
-            Object[][] data1 = new Object[listOfCourses.size()][6];
-            for (int row = 0; row < listOfCourses.size(); row++){
-                data1[row][0] = listOfCourses.get(row).getYear();
-                data1[row][1] = listOfCourses.get(row).getTerm();
-                data1[row][2] = listOfCourses.get(row).getCourseCode();
-                data1[row][3] = listOfCourses.get(row).getCourseName();
-                data1[row][4] = listOfCourses.get(row).getUnits();
-                data1[row][5] = gradeRemarks(listOfCourses.get(row).getGrades());
-            }
-
-            showGradesTable.setModel(new DefaultTableModel(data1, new String[]{"Year", "Term", "Course No.", "Course Title", "Units", "Grades"}));
-
+            updateTable(showGradesTable,listOfCourses, 6);
             editGradesTF.setText("");
             addCourseNoTF.setText("");
             addCourseTitleTF.setText("");
@@ -670,45 +603,6 @@ public class GUI extends JFrame {
         }
     }
 
-    public class filterCourseNoCBHandlers implements ActionListener {
-        public void actionPerformed(ActionEvent e) {
-            int editYear = editYearCB.getSelectedIndex() + 1;
-            int editTerm = editTermCB.getSelectedIndex() + 1;
-
-            filteredCourses = listOfCourses.stream().filter(c -> c.getYear() == editYear && c.getTerm() == editTerm).collect(Collectors.toList());
-            editCourseNoCB.removeAllItems();
-            for (int index = 0; index < filteredCourses.size(); index++) {
-                editCourseNoCB.addItem(filteredCourses.get(index).getCourseCode());
-            }
-        }
-    }
-
-    public class filterCourseNoCBHandlers1 implements ActionListener {
-        public void actionPerformed(ActionEvent e) {
-            int removeYear = removeYearCB.getSelectedIndex() + 1;
-            int removeTerm = removeTermCB.getSelectedIndex() + 1;
-
-            filteredCourses = listOfCourses.stream().filter(c -> c.getYear() == removeYear && c.getTerm() == removeTerm).collect(Collectors.toList());
-            removeCourseNoCB.removeAllItems();
-            for (int index = 0; index < filteredCourses.size(); index++) {
-                removeCourseNoCB.addItem(filteredCourses.get(index).getCourseCode());
-            }
-        }
-    }
-
-    public class filterCourseNoCBHandlers2 implements ActionListener {
-        public void actionPerformed(ActionEvent e) {
-            int editGYear = editGYearCB.getSelectedIndex() + 1;
-            int editGTerm = editGTermCB.getSelectedIndex() + 1;
-
-            filteredCourses = listOfCourses.stream().filter(c -> c.getYear() == editGYear && c.getTerm() == editGTerm).collect(Collectors.toList());
-            editGCourseNoCB.removeAllItems();
-            for (int index = 0; index < filteredCourses.size(); index++) {
-                editGCourseNoCB.addItem(filteredCourses.get(index).getCourseCode());
-            }
-        }
-    }
-
     private void setYearAndTermCB(JComboBox<String> yearCB, JComboBox<String> termCB) {
         yearCB.addItem("1 - First");
         yearCB.addItem("2 - Second");
@@ -720,7 +614,33 @@ public class GUI extends JFrame {
         termCB.addItem("3 - Short");
     }
 
-    public int findCourseIndex(List<Course> courses, String courseNoKey){
+    public class filterEditGradesCourseNoCBHandlers implements ActionListener {
+        public void actionPerformed(ActionEvent e) {
+            int editGYear = editGYearCB.getSelectedIndex() + 1;
+            int editGTerm = editGTermCB.getSelectedIndex() + 1;
+
+            filteredCourses = listOfCourses.stream().filter(c -> c.getYear() == editGYear && c.getTerm() == editGTerm).collect(Collectors.toList());
+            editGCourseNoCB.removeAllItems();
+            for (Course course : filteredCourses) {
+                editGCourseNoCB.addItem(course.getCourseCode());
+            }
+        }
+    }
+
+    public class filterEditCourseCourseNoCBHandlers implements ActionListener {
+        public void actionPerformed(ActionEvent e) {
+            int editYear = editYearCB.getSelectedIndex() + 1;
+            int editTerm = editTermCB.getSelectedIndex() + 1;
+
+            filteredCourses = listOfCourses.stream().filter(c -> c.getYear() == editYear && c.getTerm() == editTerm).collect(Collectors.toList());
+            editCourseNoCB.removeAllItems();
+            for (Course course : filteredCourses) {
+                editCourseNoCB.addItem(course.getCourseCode());
+            }
+        }
+    }
+
+    public int findCourseIndex(List<Course> courses, String courseNoKey) {
         for (int i = 0; i < courses.size(); i++) {
             Course courseNos = courses.get(i);
             if (courseNoKey.equals(courseNos.getCourseCode())) {
@@ -730,102 +650,69 @@ public class GUI extends JFrame {
         return 0;
     }
 
-    private ArrayList<Course> readDataFileIntoList(String filename) throws FileNotFoundException, IOException {
-        ArrayList<Course> courseList = new ArrayList<>();
-        BufferedReader reader = new BufferedReader(new FileReader(filename));
-        while (true) {
-            String line = reader.readLine();
-            if (line == null) {
-                break;
-            }
-            String[] data = line.split(",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)", -1);
-
-            String strContent = data[3];
-            String strPattern = "\"([^\"]*)\"";
-            String courseName = "";
-
-            if (strContent.charAt(0) == '\"') {
-                Pattern pattern = Pattern.compile(strPattern);
-                Matcher matcher = pattern.matcher(strContent);
-                while (matcher.find()) {
-                    courseName = matcher.group(1);
-                }
-            } else {
-                courseName = strContent;
-            }
-
-            int grade;
-            if (data[5].equals("")) {
-                grade = 0;
-            } else
-                grade = Integer.parseInt(data[5]);
-            Course course = new Course(Integer.parseInt(data[0]), Integer.parseInt(data[1]), data[2], courseName, Integer.parseInt(data[4]),
-                    grade);
-            courseList.add(course);
-        }
-        reader.close();
-        return courseList;
-    }
-
     public static String yearInWord(int year) {
-        String result = "";
 
-        switch (year) {
-            case 1:
-                result = "First";
-                break;
-            case 2:
-                result = "Second";
-                break;
-            case 3:
-                result = "Third";
-                break;
-            case 4:
-                result = "Fourth";
-        }
-        return result;
+        return switch (year) {
+            case 1 -> "First";
+            case 2 -> "Second";
+            case 3 -> "Third";
+            case 4 -> "Fourth";
+            default -> "";
+        };
     }
 
     public static String termInWord(int term) {
-        String result = "";
 
-        switch (term) {
-            case 1:
-                result = "First";
-                break;
-            case 2:
-                result = "Second";
-                break;
-            case 3:
-                result = "Short";
-                break;
-        }
-        return result;
+        return switch (term) {
+            case 1 -> "First";
+            case 2 -> "Second";
+            case 3 -> "Short";
+            default -> "";
+        };
     }
 
     private void saveCourseToCSV(Course course, String fileName) throws IOException {
         try (PrintWriter writer = new PrintWriter(new FileWriter(fileName, true))) {
-            writer.println(course.getYear() + "," + course.getTerm() + "," + course.getCourseCode() + "," + course.getCourseName() + "," + course.getUnits() + "," + course.getGrades());
+            writer.println(course.getYear() + "," + course.getTerm() + "," + course.getCourseCode() + "," + "\"" + course.getCourseName() + "\"" + "," + course.getUnits() + "," + course.getGrades());
         }
     }
 
-    private void overwriteCSV(Course course, String fileName) throws IOException {
-        try (PrintWriter writer = new PrintWriter(new FileWriter(fileName))) {
-            writer.println(course.getYear() + "," + course.getTerm() + "," + course.getCourseCode() + "," + course.getCourseName() + "," + course.getUnits() + "," + course.getGrades());
-        }
+    public void save(String fileName, ArrayList<Course> courses) throws FileNotFoundException {
+        PrintWriter pw = new PrintWriter(new FileOutputStream(fileName));
+        for (Course course : courses)
+            pw.println(course.getYear() + "," + course.getTerm() + "," + course.getCourseCode() + "," + "\"" + course.getCourseName() + "\"" + "," + course.getUnits() + "," + course.getGrades()); // call toString() on club, like club.toString()
+        pw.close();
     }
 
     private void editAndSaveCourseToCSV(int rowIndex, Course course, String fileName) throws IOException {
         List<String> lines = Files.readAllLines(Paths.get(fileName), StandardCharsets.UTF_8);
-        lines.set(rowIndex, course.getYear() + "," + course.getTerm() + "," + course.getCourseCode() + "," + course.getCourseName() + "," + course.getUnits() + "," + course.getGrades());
+        lines.set(rowIndex, course.getYear() + "," + course.getTerm() + "," + course.getCourseCode() + "," + "\"" + course.getCourseName() + "\"" + "," + course.getUnits() + "," + course.getGrades());
         Files.write(Paths.get(fileName), lines, StandardCharsets.UTF_8);
     }
 
-    private String gradeRemarks(int grade){
-        if (grade == 0){
-            return "Not yet taken";
+    private void updateTable(JTable table, ArrayList<Course> courses, int n) {
+        Object[][] data = new Object[courses.size()][n];
+        for (int row = 0; row < courses.size(); row++) {
+            data[row][0] = courses.get(row).getYear();
+            data[row][1] = courses.get(row).getTerm();
+            data[row][2] = courses.get(row).getCourseCode();
+            data[row][3] = courses.get(row).getCourseName();
+            data[row][4] = courses.get(row).getUnits();
+            if (n == 6) {
+                data[row][5] = gradeRemarks(courses.get(row).getGrades());
+            }
         }
-        else return grade + "";
+
+        if (n == 5){
+            table.setModel(new DefaultTableModel(data, new String[]{"Year", "Term", "Course No.", "Course Title", "Units"}));
+        } else
+            table.setModel(new DefaultTableModel(data, new String[]{"Year", "Term", "Course No.", "Course Title", "Units", "Grades"}));
+    }
+
+    private String gradeRemarks(int grade) {
+        if (grade == 0) {
+            return "Not yet taken";
+        } else return grade + "";
     }
 }
 
