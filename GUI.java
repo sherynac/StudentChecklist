@@ -105,10 +105,11 @@ public class GUI extends JFrame {
     private JTextField editGCourseTitleTF;
     private JTextField editGProblemTF;
     private JButton editGUpdateBtn;
-    private JTable sortGTable;
     private JTable showSubjectsTable;
     private JTable showGradesTable;
     private JTable removeTable;
+    private JComboBox comboBox1;
+    private JTable table1;
     private final CardLayout cl = new CardLayout();
     private String fileName;
     private String problemDisplayer;
@@ -251,21 +252,23 @@ public class GUI extends JFrame {
         editGUpdateBtn.addActionListener(e -> {
             int grade = 0;
             int courseIndex = 0;
-            int oldGrade = 0;
+            String oldGrade = "";
 
             try {
                 String gradeString = editGradesTF.getText();
                 if (gradeString.equals("")) {
                     problemDisplayer = "Make sure you have entered a grade.";
                 }
-                grade = Integer.parseInt(gradeString);
-                if (grade < 65 || grade > 99) {
+                //grade = Integer.parseInt(gradeString);
+                if (Integer.parseInt(gradeString) < 65 || Integer.parseInt(gradeString) > 99) {
                     problemDisplayer = "Grade should only be from 65 to 99";
-                } else
+                } else {
                     problemDisplayer = "";
+                    grade = Integer.parseInt(gradeString);
+                }
             } catch (NumberFormatException ex1) {
                 problemDisplayer = "Entered grade is not cannot be parsed.";
-            }
+            }//end of try-catch method
 
             String courseNoKey = "";
             try {
@@ -275,7 +278,11 @@ public class GUI extends JFrame {
             }
             if (!courseNoKey.equalsIgnoreCase("")) {
                 int index = findCourseIndex(filteredCourses, courseNoKey);
-                oldGrade = filteredCourses.get(index).getGrades();
+                if (filteredCourses.get(index).getGrades() == 0){
+                    oldGrade = "Not Yet Taken";
+                } else {
+                    oldGrade = String.valueOf(filteredCourses.get(index).getGrades());
+                }
                 filteredCourses.get(index).setGrades(grade);
             }
 
@@ -284,11 +291,13 @@ public class GUI extends JFrame {
                 JOptionPane.showMessageDialog(null, "Grades have successfully updated." + "\nYear: " +
                         yearInWord(filteredCourses.get(courseIndex).getYear()) + "\nTerm: " + termInWord(filteredCourses.get(courseIndex).getTerm()) +
                         "\nCourse No.: " + filteredCourses.get(courseIndex).getCourseCode() + "\nCourse Title: " + filteredCourses.get(courseIndex).getCourseName()
-                        + "\nUnits: " + filteredCourses.get(courseIndex).getUnits() + "\nOld Grade: " + oldGrade + "\nUpdated Grade: " + grade);
+                        + "\nUnits: " + filteredCourses.get(courseIndex).getUnits() + "\nInitial Grade: " + oldGrade + "\nUpdated Grade: " + grade);
             } else {
                 editGProblemTF.setText(problemDisplayer);
                 editGradesTF.setText("");
             }
+
+            updateGradeInCSV("data.csv", filteredCourses.get(courseIndex).getCourseCode(), grade);
         });
 
         /**
@@ -651,7 +660,6 @@ public class GUI extends JFrame {
     }
 
     public static String yearInWord(int year) {
-
         return switch (year) {
             case 1 -> "First";
             case 2 -> "Second";
@@ -662,7 +670,6 @@ public class GUI extends JFrame {
     }
 
     public static String termInWord(int term) {
-
         return switch (term) {
             case 1 -> "First";
             case 2 -> "Second";
@@ -714,5 +721,27 @@ public class GUI extends JFrame {
             return "Not yet taken";
         } else return grade + "";
     }
+
+    private void updateGradeInCSV(String csvFilePath, String courseCodeToUpdate, int newGrade) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(csvFilePath))) {
+            String line;
+            StringBuilder updatedContent = new StringBuilder();
+
+            while ((line = reader.readLine()) != null) {
+                String[] fields = line.split(",");
+
+                if (fields[2].equals(courseCodeToUpdate)) {
+                    fields[5] = String.valueOf(newGrade);
+                }
+                String updatedLine = String.join(",", fields);
+                updatedContent.append(updatedLine).append("\n");
+            }
+            try (BufferedWriter writer = new BufferedWriter(new FileWriter(csvFilePath))) {
+                writer.write(updatedContent.toString());
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }//end of updateGradeInCSV
 }
 
