@@ -112,6 +112,7 @@ public class GUI extends JFrame {
     private JButton updateSortBtn;
     private JTable sortingTable;
     private JTextField addPreReqTF;
+    private JTextField editPreReqTF;
     private final CardLayout cl = new CardLayout();
     private String fileName;
     private String problemDisplayer;
@@ -348,7 +349,7 @@ public class GUI extends JFrame {
                 }
                 JOptionPane.showMessageDialog(null, "Course has been successfully added to " + fileName + "\nYear: " +
                         yearInWord(addedCourse.getYear()) + "\nTerm: " + termInWord(addedCourse.getTerm()) + "\nCourse No.: " + addedCourse.getCourseCode()
-                        + "\nCourse Title: " + addedCourse.getCourseName() + "\nUnits: " + addedCourse.getUnits());
+                        + "\nCourse Title: " + addedCourse.getCourseName() + "\nUnits: " + addedCourse.getUnits() + "\nPre-requisite: " + preRequisiteRemarks(preReq));
             } else {
                 addProblemTF.setText(problemDisplayer);
                 addCourseNoTF.setText("");
@@ -394,13 +395,14 @@ public class GUI extends JFrame {
             String unitsInString = editUnitsTF.getText();
             String courseNo = editCourseNoTF.getText();
             String courseTitle = editCourseTitleTF.getText();
+            String preReq = editPreReqTF.getText();
 
-            if (unitsInString.equals("") && courseNo.equals("") && courseTitle.equals("")) {
+            if (unitsInString.isEmpty() && courseNo.isEmpty() && courseTitle.isEmpty() && preReq.isEmpty()) {
                 problemDisplayer = "Make sure you have added something to edit.";
             }
 
             int units;
-            if (!unitsInString.equals("")) {
+            if (!unitsInString.isEmpty()) {
                 try {
                     units = Integer.parseInt(editUnitsTF.getText());
                     if (units < 1 || units > 12) {
@@ -422,6 +424,10 @@ public class GUI extends JFrame {
                 listOfCourses.get(index).setCourseCode(courseNo);
             }
 
+            if (!preReq.isEmpty()){
+                listOfCourses.get(index).setPreRequisite(preReq);
+            }
+
             try {
                 editAndSaveCourseToCSV(index, listOfCourses.get(index), fileName);
             } catch (IOException ex1) {
@@ -433,7 +439,7 @@ public class GUI extends JFrame {
                 JOptionPane.showMessageDialog(null, "Course has been successfully edited." + "\nYear: " +
                         yearInWord(listOfCourses.get(index).getYear()) + "\nTerm: " + termInWord(listOfCourses.get(index).getTerm()) +
                         "\nCourse No.: " + listOfCourses.get(index).getCourseCode() + "\nCourse Title: " + listOfCourses.get(index).getCourseName() +
-                        "\nUnits: " + listOfCourses.get(index).getUnits());
+                        "\nUnits: " + listOfCourses.get(index).getUnits() + "\nPre-requisite: " + listOfCourses.get(index).getPreRequisite());
             } else {
                 editCourseProblemTF.setText(problemDisplayer);
                 editCourseNoTF.setText("");
@@ -537,8 +543,32 @@ public class GUI extends JFrame {
             }
             String[] data = line.split(",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)", -1);
 
-            String courseName = removeQuotes(data[3]);
-            String preReq = removeQuotes(data[6]);
+            String strContent = data[3];
+            String strPattern = "\"([^\"]*)\"";
+            String courseName = "";
+
+            if (strContent.charAt(0) == '\"') {
+                Pattern pattern = Pattern.compile(strPattern);
+                Matcher matcher = pattern.matcher(strContent);
+                while (matcher.find()) {
+                    courseName = matcher.group(1);
+                }
+            } else {
+                courseName = strContent;
+            }
+
+            String strContent1 = data[3];
+            String preReq = "";
+
+            if (strContent.charAt(0) == '\"') {
+                Pattern pattern = Pattern.compile(strPattern);
+                Matcher matcher = pattern.matcher(strContent1);
+                while (matcher.find()) {
+                    preReq = matcher.group(1);
+                }
+            } else {
+                preReq = strContent;
+            }
 
             int grade;
             if (data[5].equals("")) {
@@ -553,26 +583,6 @@ public class GUI extends JFrame {
         reader.close();
         return courseList;
     }
-
-    /**
-     * Method that removes quotation marks from data
-     */
-    public String removeQuotes(String data){
-        String strContent = data;
-        String strPattern = "\"([^\"]*)\"";
-        String result = "";
-
-        if (strContent.charAt(0) == '\"') {
-            Pattern pattern = Pattern.compile(strPattern);
-            Matcher matcher = pattern.matcher(strContent);
-            while (matcher.find()) {
-                result = matcher.group(1);
-            }
-        } else
-            result = strContent;
-        return result;
-    }
-
 
     /**
      * Button Handler class for the toSubject Buttons
@@ -765,7 +775,8 @@ public class GUI extends JFrame {
     public void save(String fileName, ArrayList<Course> courses) throws FileNotFoundException {
         PrintWriter pw = new PrintWriter(new FileOutputStream(fileName));
         for (Course course : courses)
-            pw.println(course.getYear() + "," + course.getTerm() + "," + course.getCourseCode() + "," + "\"" + course.getCourseName() + "\"" + "," + course.getUnits() + "," + course.getGrades()); // call toString() on club, like club.toString()
+            pw.println(course.getYear() + "," + course.getTerm() + "," + course.getCourseCode() + "," + "\"" + course.getCourseName()
+            + "\"" + "," + course.getUnits() + "," + "\"" + course.getPreRequisite() + "\"" );
         pw.close();
     }
 
@@ -774,7 +785,7 @@ public class GUI extends JFrame {
      */
     private void editAndSaveCourseToCSV(int rowIndex, Course course, String fileName) throws IOException {
         List<String> lines = Files.readAllLines(Paths.get(fileName), StandardCharsets.UTF_8);
-        lines.set(rowIndex, course.getYear() + "," + course.getTerm() + "," + course.getCourseCode() + "," + "\"" + course.getCourseName() + "\"" + "," + course.getUnits() + "," + course.getGrades());
+        lines.set(rowIndex, course.getYear() + "," + course.getTerm() + "," + course.getCourseCode() + "," + "\"" + course.getCourseName() + "\"" + "," + course.getUnits() + "," + course.getGrades() + "," + "\"" + course.getPreRequisite() + "\"");
         Files.write(Paths.get(fileName), lines, StandardCharsets.UTF_8);
     }
 
