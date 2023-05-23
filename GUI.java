@@ -299,7 +299,7 @@ public class GUI extends JFrame {
                 editGradesTF.setText("");
             }
 
-            updateGradeInCSV("data.csv", filteredCourses.get(courseIndex).getCourseCode(), grade);
+            updateGradeInCSV(fileName, filteredCourses.get(courseIndex).getCourseCode(), grade);
         });
 
         /**
@@ -492,7 +492,12 @@ public class GUI extends JFrame {
         updateTable(sortingTable, listOfCourses, 6);
         setSortingGradesCB(sortingGradesCB);
         updateSortBtn.addActionListener(e -> {
-            String typeOfSort = sortingGradesCB.getSelectedItem().toString();
+            String typeOfSort = "";
+            
+            if (sortingGradesCB.getSelectedItem() != null) {
+                typeOfSort = sortingGradesCB.getSelectedItem().toString();
+            }
+
             if (typeOfSort.equalsIgnoreCase("Ascending")) {
                 ArrayList<Course> sortedList = sortCourseByGrades(listOfCourses, 1);
                 updateTable(sortingTable,sortedList,6);
