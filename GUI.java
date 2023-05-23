@@ -334,6 +334,9 @@ public class GUI extends JFrame {
             }
 
             String preReq = addPreReqTF.getText();
+            if (findCourseIndex(listOfCourses, preReq) < 0){
+                problemDisplayer = "Pre-requisite is not in the list of courses";
+            }
 
             // create new course
             Course addedCourse = new Course(year, term, courseNo, courseTitle, units, 0, preReq);
@@ -423,7 +426,11 @@ public class GUI extends JFrame {
             }
 
             if (!preReq.isEmpty()){
-                listOfCourses.get(index).setPreRequisite(preReq);
+                if (findCourseIndex(listOfCourses, preReq) < 0){
+                    problemDisplayer = "Pre-requisite is not in the list of courses";
+                } else {
+                    listOfCourses.get(index).setPreRequisite(preReq);
+                }
             }
 
             try {
@@ -493,7 +500,7 @@ public class GUI extends JFrame {
         setSortingGradesCB(sortingGradesCB);
         updateSortBtn.addActionListener(e -> {
             String typeOfSort = "";
-            
+
             if (sortingGradesCB.getSelectedItem() != null) {
                 typeOfSort = sortingGradesCB.getSelectedItem().toString();
             }
@@ -735,7 +742,7 @@ public class GUI extends JFrame {
                 return i;
             }
         }
-        return 0;
+        return -1;
     }
 
     /**
