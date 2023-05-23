@@ -111,6 +111,7 @@ public class GUI extends JFrame {
     private JComboBox sortingGradesCB;
     private JButton updateSortBtn;
     private JTable sortingTable;
+    private JTextField addPreReqTF;
     private final CardLayout cl = new CardLayout();
     private String fileName;
     private String problemDisplayer;
@@ -331,8 +332,10 @@ public class GUI extends JFrame {
                 problemDisplayer = "Make sure you have entered a course number.";
             }
 
+            String preReq = addPreReqTF.getText();
+
             // create new course
-            Course addedCourse = new Course(year, term, courseNo, courseTitle, units, 0, preRequisiteRemarks());
+            Course addedCourse = new Course(year, term, courseNo, courseTitle, units, 0, preRequisiteRemarks(preReq));
             listOfCourses.add(addedCourse);
             Collections.sort(listOfCourses);
 
@@ -534,19 +537,8 @@ public class GUI extends JFrame {
             }
             String[] data = line.split(",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)", -1);
 
-            String strContent = data[3];
-            String strPattern = "\"([^\"]*)\"";
-            String courseName = "";
-
-            if (strContent.charAt(0) == '\"') {
-                Pattern pattern = Pattern.compile(strPattern);
-                Matcher matcher = pattern.matcher(strContent);
-                while (matcher.find()) {
-                    courseName = matcher.group(1);
-                }
-            } else {
-                courseName = strContent;
-            }
+            String courseName = removeQuotes(data[3]);
+            String preReq = removeQuotes(data[6]);
 
             int grade;
             if (data[5].equals("")) {
@@ -555,12 +547,32 @@ public class GUI extends JFrame {
                 grade = Integer.parseInt(data[5]);
 
             Course course = new Course(Integer.parseInt(data[0]), Integer.parseInt(data[1]), data[2], courseName, Integer.parseInt(data[4]),
-                    grade, preRequisiteRemarks(data[6]));
+                    grade, preRequisiteRemarks(preReq));
             courseList.add(course);
         }
         reader.close();
         return courseList;
     }
+
+    /**
+     * Method that removes quotation marks from data
+     */
+    public String removeQuotes(String data){
+        String strContent = data;
+        String strPattern = "\"([^\"]*)\"";
+        String result = "";
+
+        if (strContent.charAt(0) == '\"') {
+            Pattern pattern = Pattern.compile(strPattern);
+            Matcher matcher = pattern.matcher(strContent);
+            while (matcher.find()) {
+                result = matcher.group(1);
+            }
+        } else
+            result = strContent;
+        return result;
+    }
+
 
     /**
      * Button Handler class for the toSubject Buttons

@@ -60,7 +60,7 @@ public class Course implements Comparable<Course>, Serializable {
     public int getGrades(){
         return grades;
     }
-    public String getPreRequisite() {return preRequisite};
+    public String getPreRequisite() {return preRequisite;}
 
     public void setGrades(int grades) {
         this.grades = grades;
