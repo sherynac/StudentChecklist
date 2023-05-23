@@ -10,6 +10,7 @@ import java.io.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -108,8 +109,9 @@ public class GUI extends JFrame {
     private JTable showSubjectsTable;
     private JTable showGradesTable;
     private JTable removeTable;
-    private JComboBox comboBox1;
-    private JTable table1;
+    private JComboBox sortingGradesCB;
+    private JButton updateSortBtn;
+    private JTable sortingTable;
     private final CardLayout cl = new CardLayout();
     private String fileName;
     private String problemDisplayer;
@@ -259,7 +261,6 @@ public class GUI extends JFrame {
                 if (gradeString.equals("")) {
                     problemDisplayer = "Make sure you have entered a grade.";
                 }
-                //grade = Integer.parseInt(gradeString);
                 if (Integer.parseInt(gradeString) < 65 || Integer.parseInt(gradeString) > 99) {
                     problemDisplayer = "Grade should only be from 65 to 99";
                 } else {
@@ -482,6 +483,19 @@ public class GUI extends JFrame {
          * CODE FOR SORT GRADES
          */
 
+        updateTable(sortingTable, listOfCourses, 6);
+        setSortingGradesCB(sortingGradesCB);
+        updateSortBtn.addActionListener(e -> {
+            String typeOfSort = sortingGradesCB.getSelectedItem().toString();
+            if (typeOfSort.equalsIgnoreCase("Ascending")) {
+                ArrayList<Course> sortedList = sortCourseByGrades(listOfCourses, 1);
+                updateTable(sortingTable,sortedList,6);
+            } else if (typeOfSort.equalsIgnoreCase("Descending")) {
+                ArrayList<Course> sortedList = sortCourseByGrades(listOfCourses, 2);
+                updateTable(sortingTable,sortedList,6);
+            }
+        });
+
 
         /**
          * ADD TO MAIN PANEL CODES
@@ -623,6 +637,11 @@ public class GUI extends JFrame {
         termCB.addItem("3 - Short");
     }
 
+    private void setSortingGradesCB(JComboBox<String> sortingGradesCB){
+        sortingGradesCB.addItem("Ascending");
+        sortingGradesCB.addItem("Descending");
+    }
+
     public class filterEditGradesCourseNoCBHandlers implements ActionListener {
         public void actionPerformed(ActionEvent e) {
             int editGYear = editGYearCB.getSelectedIndex() + 1;
@@ -720,6 +739,17 @@ public class GUI extends JFrame {
         if (grade == 0) {
             return "Not yet taken";
         } else return grade + "";
+    }
+
+    public static ArrayList<Course> sortCourseByGrades(ArrayList<Course> course, int type) {
+        ArrayList<Course> sortedList = new ArrayList<>(course);
+
+        if (type == 1){
+            Collections.sort(sortedList, Comparator.comparingInt(Course::getGrades));
+        }else if (type == 2){
+            Collections.sort(sortedList, Comparator.comparingInt(Course::getGrades).reversed());
+        }
+        return sortedList;
     }
 
     private void updateGradeInCSV(String csvFilePath, String courseCodeToUpdate, int newGrade) {
