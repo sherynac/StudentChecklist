@@ -255,8 +255,9 @@ public class GUI extends JFrame {
         editGUpdateBtn.addActionListener(e -> {
             int grade = 0;
             int courseIndex = 0;
-            String oldGrade = "";
+            int oldGrade = 0;
 
+            // READ GRADE
             try {
                 String gradeString = editGradesTF.getText();
                 if (gradeString.equals("")) {
@@ -270,7 +271,7 @@ public class GUI extends JFrame {
                 }
             } catch (NumberFormatException ex1) {
                 problemDisplayer = "Entered grade is not cannot be parsed.";
-            }//end of try-catch method
+            } //end of try-catch method
 
             String courseNoKey = "";
 
@@ -278,28 +279,53 @@ public class GUI extends JFrame {
                 courseNoKey = (editGCourseNoCB.getSelectedItem().toString());
             }
 
-            if (!courseNoKey.equalsIgnoreCase("")) {
-                int index = findCourseIndex(filteredCourses, courseNoKey);
-                if (filteredCourses.get(index).getGrades() == 0){
-                    oldGrade = "Not Yet Taken";
-                } else {
-                    oldGrade = String.valueOf(filteredCourses.get(index).getGrades());
+            if (!courseNoKey.isEmpty()) {
+                courseIndex = findCourseIndex(listOfCourses, courseNoKey);
+                System.out.println(courseIndex);
+            }
+
+            if (!listOfCourses.get(courseIndex).getPreRequisite().isEmpty()) { // IF MAY PREREQUISITE
+                // GET PRE-REQUISITES
+                String[] preRequisitesArray = new String[0];
+                List<String> preReqList = new ArrayList<>();
+                List<Course> courseList;
+
+                if (listOfCourses.get(courseIndex).getPreRequisite().charAt(0) == '3'){
+                    courseList = listOfCourses.stream().filter(c -> c.getYear() == 1 || c.getYear() == 2).toList();
+                    for (int x =0; x<courseList.size(); x++){
+                        preReqList.add(courseList.get(x).getCourseCode());
+                    }
+                } else if (listOfCourses.get(courseIndex).getPreRequisite().charAt(0) == '4') {
+                     courseList = listOfCourses.stream().filter(c -> c.getYear() == 1 || c.getYear() == 2 || c.getYear() == 3).toList();
+                     for (int x = 0; x<courseList.size(); x++){
+                         preReqList.add(courseList.get(x).getCourseCode());
+                     }
                 }
-                filteredCourses.get(index).setGrades(grade);
+
+                // GET GRADES OF PRE-REQUISITES AND COMPARE
+                for (int i = 0; i < preReqList.size(); i++) {
+                    int preReqIndex = findCourseIndex(listOfCourses, preReqList.get(i).toString());
+                    if (listOfCourses.get(preReqIndex).getGrades() == 0) {
+                        problemDisplayer = "Pre-requisite course has not been taken";
+                    } else if (listOfCourses.get(preReqIndex).getGrades() < 75) {
+                        problemDisplayer = "Pre-requisite course has a failing grade";
+                    }
+                }
             }
 
             if (problemDisplayer.equalsIgnoreCase("")) {
                 editGProblemTF.setText("");
+                listOfCourses.get(courseIndex).setGrades(grade);
                 JOptionPane.showMessageDialog(null, "Grades have successfully updated." + "\nYear: " +
-                        yearInWord(filteredCourses.get(courseIndex).getYear()) + "\nTerm: " + termInWord(filteredCourses.get(courseIndex).getTerm()) +
-                        "\nCourse No.: " + filteredCourses.get(courseIndex).getCourseCode() + "\nCourse Title: " + filteredCourses.get(courseIndex).getCourseName()
-                        + "\nUnits: " + filteredCourses.get(courseIndex).getUnits() + "\nInitial Grade: " + oldGrade + "\nUpdated Grade: " + grade);
+                        yearInWord(listOfCourses.get(courseIndex).getYear()) + "\nTerm: " + termInWord(listOfCourses.get(courseIndex).getTerm()) +
+                        "\nCourse No.: " + listOfCourses.get(courseIndex).getCourseCode() + "\nCourse Title: " + listOfCourses.get(courseIndex).getCourseName()
+                        + "\nUnits: " + listOfCourses.get(courseIndex).getUnits() + "\nInitial Grade: " + gradeRemarks(oldGrade) + "\nUpdated Grade: " + grade);
             } else {
                 editGProblemTF.setText(problemDisplayer);
                 editGradesTF.setText("");
             }
 
-            updateGradeInCSV(fileName, filteredCourses.get(courseIndex).getCourseCode(), grade);
+            updateGradeInCSV(fileName, listOfCourses.get(courseIndex).getCourseCode(), grade);
         });
 
         /**
@@ -567,17 +593,17 @@ public class GUI extends JFrame {
                 courseName = strContent;
             }
 
-            String strContent1 = data[3];
+            String strContent1 = data[6];
             String preReq = "";
 
-            if (strContent.charAt(0) == '\"') {
+            if (strContent1.charAt(0) == '\"') {
                 Pattern pattern = Pattern.compile(strPattern);
                 Matcher matcher = pattern.matcher(strContent1);
                 while (matcher.find()) {
                     preReq = matcher.group(1);
                 }
             } else {
-                preReq = strContent;
+                preReq = strContent1;
             }
 
             int grade;
@@ -592,6 +618,14 @@ public class GUI extends JFrame {
         }
         reader.close();
         return courseList;
+    }
+
+    /**
+     *
+     */
+    public String[] preRequisitesInList(String preRequisites){
+        String[] preReqsArray = preRequisites.split(",");
+        return preReqsArray;
     }
 
     /**
@@ -878,5 +912,20 @@ public class GUI extends JFrame {
         else
             return preRequisite;
     }
+
+    /**
+     * Method that returns the pre-requisites in an array
+     */
+    private List<String> preRequisitesInList(List<Course> courseList, int index){
+        String preRequisites = courseList.get(index).getPreRequisite();
+        String[] preReqsArray = new String[1];
+        if (preRequisites.contains(",")) {
+            preReqsArray = preRequisites.split(",");
+        } else
+            preReqsArray[0] = preRequisites;
+        List<String> preReqList = Arrays.asList(preReqsArray);
+        return preReqList;
+    }
+
 }
 
