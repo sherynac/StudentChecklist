@@ -10,7 +10,6 @@ import java.io.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicReference;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -130,7 +129,7 @@ public class GUI extends JFrame {
     public GUI() {
 
         /**
-         * ADD BUTTON HANDLERS TO EVERY BUTTON
+         * Add Button Handlers to every menu panel button
          */
         toSubjectBtnHandler toSubjectHandler = new toSubjectBtnHandler();
         toSubjectsBtn1.addActionListener(toSubjectHandler);
@@ -196,7 +195,7 @@ public class GUI extends JFrame {
         });
 
         /**
-         * CODE FOR GET FILE MENU
+         * Code for the get file panel
          */
         continueButton.addActionListener(e -> {
             fileName = fileNameTF.getText();
@@ -230,7 +229,7 @@ public class GUI extends JFrame {
 
 
         /**
-         * CODE FOR EDIT GRADES
+         * Code for edit grades panel
          */
         setYearAndTermCB(editGYearCB, editGTermCB);
 
@@ -302,7 +301,7 @@ public class GUI extends JFrame {
         });
 
         /**
-         * CODE FOR ADD A COURSE
+         * Code for add a course panel
          */
         setYearAndTermCB(addYearCB, addTermCB);
         addUpdateBtn.addActionListener(e -> {
@@ -357,7 +356,7 @@ public class GUI extends JFrame {
         });
 
         /**
-         * CODE FOR EDIT A COURSE
+         * Code for edit a course panel
          */
         setYearAndTermCB(editYearCB, editTermCB);
 
@@ -444,7 +443,7 @@ public class GUI extends JFrame {
         });
 
         /**
-         * CODE FOR REMOVE A COURSE
+         * Code for remove a course panel
          */
         removeUpdateBtn.addActionListener(e -> {
             int selectedRow = removeTable.getSelectedRow();
@@ -498,7 +497,7 @@ public class GUI extends JFrame {
 
 
         /**
-         * ADD TO MAIN PANEL CODES
+         * Add panels to main panel
          */
         mainPanel.setLayout(cl);
         mainPanel.add(filePanel, "1");
@@ -522,6 +521,9 @@ public class GUI extends JFrame {
 
     }
 
+    /**
+     * Method that reads a data file (.csv file) into an ArrayList
+     */
     private ArrayList<Course> readDataFileIntoList(String filename) throws IOException {
         ArrayList<Course> courseList = new ArrayList<>();
         BufferedReader reader = new BufferedReader(new FileReader(filename));
@@ -559,6 +561,9 @@ public class GUI extends JFrame {
         return courseList;
     }
 
+    /**
+     * Button Handler class for the toSubject Buttons
+     */
     public class toSubjectBtnHandler implements ActionListener {
         public void actionPerformed(ActionEvent e) {
             updateTable(showSubjectsTable, listOfCourses,5);
@@ -573,6 +578,9 @@ public class GUI extends JFrame {
         }
     }
 
+    /**
+     * Button Handler class for the toGrades Buttons
+     */
     public class toGradesBtnHandler implements ActionListener {
         public void actionPerformed(ActionEvent e) {
             updateTable(showGradesTable,listOfCourses, 6);
@@ -587,6 +595,9 @@ public class GUI extends JFrame {
         }
     }
 
+    /**
+     * Button Handler class for the toEditGrades Buttons
+     */
     public class toEditGradesBtnHandler implements ActionListener {
         public void actionPerformed(ActionEvent e) {
             editGradesTF.setText("");
@@ -600,6 +611,9 @@ public class GUI extends JFrame {
         }
     }
 
+    /**
+     * Button Handler for the toChangeCourse Buttons
+     */
     public class toChangeCourseBtnHandler implements ActionListener {
         public void actionPerformed(ActionEvent e) {
             editGradesTF.setText("");
@@ -613,6 +627,9 @@ public class GUI extends JFrame {
         }
     }
 
+    /**
+     * Button Handlers class for the toSortGrades Buttons
+     */
     public class toSortGradesBtnHandler implements ActionListener {
         public void actionPerformed(ActionEvent e) {
             editGradesTF.setText("");
@@ -626,6 +643,9 @@ public class GUI extends JFrame {
         }
     }
 
+    /**
+     * Method that adds the items inside the year combo box and term combo box
+     */
     private void setYearAndTermCB(JComboBox<String> yearCB, JComboBox<String> termCB) {
         yearCB.addItem("1 - First");
         yearCB.addItem("2 - Second");
@@ -637,11 +657,18 @@ public class GUI extends JFrame {
         termCB.addItem("3 - Short");
     }
 
+    /**
+     * Method that add the items inside the setSortingGrades combo box
+     */
     private void setSortingGradesCB(JComboBox<String> sortingGradesCB){
         sortingGradesCB.addItem("Ascending");
         sortingGradesCB.addItem("Descending");
     }
 
+    /**
+     * Method that filters the course numbers according to the given year and term. This is for the
+     * editGrades panel of buttons
+     */
     public class filterEditGradesCourseNoCBHandlers implements ActionListener {
         public void actionPerformed(ActionEvent e) {
             int editGYear = editGYearCB.getSelectedIndex() + 1;
@@ -655,6 +682,10 @@ public class GUI extends JFrame {
         }
     }
 
+    /**
+     * Method that filters the course numbers according to the given year and term. This is for the edit course
+     * panel of buttons
+     */
     public class filterEditCourseCourseNoCBHandlers implements ActionListener {
         public void actionPerformed(ActionEvent e) {
             int editYear = editYearCB.getSelectedIndex() + 1;
@@ -668,6 +699,9 @@ public class GUI extends JFrame {
         }
     }
 
+    /**
+     * Method that returns the index of a courseNo in a list of courses
+     */
     public int findCourseIndex(List<Course> courses, String courseNoKey) {
         for (int i = 0; i < courses.size(); i++) {
             Course courseNos = courses.get(i);
@@ -678,6 +712,9 @@ public class GUI extends JFrame {
         return 0;
     }
 
+    /**
+     * Static method that converts an int year into its corresponding String
+     */
     public static String yearInWord(int year) {
         return switch (year) {
             case 1 -> "First";
@@ -688,6 +725,9 @@ public class GUI extends JFrame {
         };
     }
 
+    /**
+     * Static method that converts an int term into its corresponding String
+     */
     public static String termInWord(int term) {
         return switch (term) {
             case 1 -> "First";
@@ -697,12 +737,18 @@ public class GUI extends JFrame {
         };
     }
 
+    /**
+     * Method that appends a course to a data file (.csv file)
+     */
     private void saveCourseToCSV(Course course, String fileName) throws IOException {
         try (PrintWriter writer = new PrintWriter(new FileWriter(fileName, true))) {
             writer.println(course.getYear() + "," + course.getTerm() + "," + course.getCourseCode() + "," + "\"" + course.getCourseName() + "\"" + "," + course.getUnits() + "," + course.getGrades());
         }
     }
 
+    /**
+     * Method that saves all courses from an ArrayList to a data file (.csv file)
+     */
     public void save(String fileName, ArrayList<Course> courses) throws FileNotFoundException {
         PrintWriter pw = new PrintWriter(new FileOutputStream(fileName));
         for (Course course : courses)
@@ -710,17 +756,23 @@ public class GUI extends JFrame {
         pw.close();
     }
 
+    /**
+     * Method that edits a line from a data file and saves the edited course
+     */
     private void editAndSaveCourseToCSV(int rowIndex, Course course, String fileName) throws IOException {
         List<String> lines = Files.readAllLines(Paths.get(fileName), StandardCharsets.UTF_8);
         lines.set(rowIndex, course.getYear() + "," + course.getTerm() + "," + course.getCourseCode() + "," + "\"" + course.getCourseName() + "\"" + "," + course.getUnits() + "," + course.getGrades());
         Files.write(Paths.get(fileName), lines, StandardCharsets.UTF_8);
     }
 
+    /**
+     * Method that populates a JTable
+     */
     private void updateTable(JTable table, ArrayList<Course> courses, int n) {
         Object[][] data = new Object[courses.size()][n];
         for (int row = 0; row < courses.size(); row++) {
-            data[row][0] = courses.get(row).getYear();
-            data[row][1] = courses.get(row).getTerm();
+            data[row][0] = yearInWord(courses.get(row).getYear());
+            data[row][1] = termInWord(courses.get(row).getTerm());
             data[row][2] = courses.get(row).getCourseCode();
             data[row][3] = courses.get(row).getCourseName();
             data[row][4] = courses.get(row).getUnits();
@@ -735,12 +787,18 @@ public class GUI extends JFrame {
             table.setModel(new DefaultTableModel(data, new String[]{"Year", "Term", "Course No.", "Course Title", "Units", "Grades"}));
     }
 
+    /**
+     * Method that returns a remark if grade is equal to 0 (or the course has not been taken) else it returns the grade
+     */
     private String gradeRemarks(int grade) {
         if (grade == 0) {
             return "Not yet taken";
         } else return grade + "";
     }
 
+    /**
+     * Method that sorts the courses in an ArrayList according to their grades in ascending or descending order
+     */
     public static ArrayList<Course> sortCourseByGrades(ArrayList<Course> course, int type) {
         ArrayList<Course> sortedList = new ArrayList<>(course);
 
@@ -752,6 +810,9 @@ public class GUI extends JFrame {
         return sortedList;
     }
 
+    /**
+     * Method that updates the grade into the data file
+     */
     private void updateGradeInCSV(String csvFilePath, String courseCodeToUpdate, int newGrade) {
         try (BufferedReader reader = new BufferedReader(new FileReader(csvFilePath))) {
             String line;

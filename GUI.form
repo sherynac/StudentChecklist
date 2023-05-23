@@ -2444,7 +2444,7 @@
                               <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
                             </constraints>
                             <properties>
-                              <text value="Button"/>
+                              <text value="Update"/>
                             </properties>
                           </component>
                         </children>
@@ -2458,7 +2458,9 @@
                         <children>
                           <component id="5aa63" class="javax.swing.JTable" binding="sortingTable">
                             <constraints/>
-                            <properties/>
+                            <properties>
+                              <enabled value="false"/>
+                            </properties>
                           </component>
                         </children>
                       </scrollpane>
