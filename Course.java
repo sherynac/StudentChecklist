@@ -9,14 +9,16 @@ public class Course implements Comparable<Course>, Serializable {
     private String courseName;
     private int units;
     private int grades;
+    private String preRequisite;
 
-    public Course(int year, int term, String courseCode, String courseName, int units, int grades){
+    public Course(int year, int term, String courseCode, String courseName, int units, int grades, String preRequisite){
         this.year = year;
         this.term = term;
         this.courseCode = courseCode;
         this.courseName = courseName;
         this.units = units;
         this.grades = grades;
+        this.preRequisite = preRequisite;
     }
 
     @Override
@@ -58,6 +60,7 @@ public class Course implements Comparable<Course>, Serializable {
     public int getGrades(){
         return grades;
     }
+    public String getPreRequisite() {return preRequisite};
 
     public void setGrades(int grades) {
         this.grades = grades;
@@ -74,5 +77,6 @@ public class Course implements Comparable<Course>, Serializable {
     public void setCourseName(String courseName){
         this.courseName = courseName;
     }
+    public void setPreRequisite(String preRequisite) {this.preRequisite = preRequisite;}
 
 }

@@ -332,7 +332,7 @@ public class GUI extends JFrame {
             }
 
             // create new course
-            Course addedCourse = new Course(year, term, courseNo, courseTitle, units, 0);
+            Course addedCourse = new Course(year, term, courseNo, courseTitle, units, 0, preRequisiteRemarks());
             listOfCourses.add(addedCourse);
             Collections.sort(listOfCourses);
 
@@ -553,8 +553,9 @@ public class GUI extends JFrame {
                 grade = 0;
             } else
                 grade = Integer.parseInt(data[5]);
+
             Course course = new Course(Integer.parseInt(data[0]), Integer.parseInt(data[1]), data[2], courseName, Integer.parseInt(data[4]),
-                    grade);
+                    grade, preRequisiteRemarks(data[6]));
             courseList.add(course);
         }
         reader.close();
@@ -834,5 +835,13 @@ public class GUI extends JFrame {
             e.printStackTrace();
         }
     }//end of updateGradeInCSV
+
+    private String preRequisiteRemarks(String preRequisite){
+        if (preRequisite.isEmpty()){
+            return "No prerequisites";
+        }
+        else
+            return preRequisite;
+    }
 }
 
