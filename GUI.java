@@ -241,12 +241,12 @@ public class GUI extends JFrame {
 
         editGCourseNoCB.addActionListener(e -> {
             String courseNoKey = "";
-            try {
-                courseNoKey = Objects.requireNonNull(editGCourseNoCB.getSelectedItem()).toString();
-            } catch (NullPointerException ex1) {
-                problemDisplayer = "Make sure to change year first before term";
+
+            if (editGCourseNoCB.getSelectedItem() != null) {
+                courseNoKey = (editGCourseNoCB.getSelectedItem()).toString();
             }
-            if (!courseNoKey.equalsIgnoreCase("")) {
+
+            if (!courseNoKey.isEmpty()) {
                 int index = findCourseIndex(filteredCourses, courseNoKey);
                 editGCourseTitleTF.setText(filteredCourses.get(index).getCourseName());
             }
@@ -273,11 +273,11 @@ public class GUI extends JFrame {
             }//end of try-catch method
 
             String courseNoKey = "";
-            try {
-                courseNoKey = Objects.requireNonNull(editGCourseNoCB.getSelectedItem()).toString();
-            } catch (NullPointerException ex) {
-                problemDisplayer = "Make sure to change year first before term.";
+
+            if (editGCourseNoCB.getSelectedItem() != null) {
+                courseNoKey = (editGCourseNoCB.getSelectedItem().toString());
             }
+
             if (!courseNoKey.equalsIgnoreCase("")) {
                 int index = findCourseIndex(filteredCourses, courseNoKey);
                 if (filteredCourses.get(index).getGrades() == 0){
@@ -336,7 +336,7 @@ public class GUI extends JFrame {
             String preReq = addPreReqTF.getText();
 
             // create new course
-            Course addedCourse = new Course(year, term, courseNo, courseTitle, units, 0, preRequisiteRemarks(preReq));
+            Course addedCourse = new Course(year, term, courseNo, courseTitle, units, 0, preReq);
             listOfCourses.add(addedCourse);
             Collections.sort(listOfCourses);
 
@@ -370,11 +370,11 @@ public class GUI extends JFrame {
 
         editCourseNoCB.addActionListener(e -> {
             String courseNoKey = "";
-            try {
-                courseNoKey = Objects.requireNonNull(editCourseNoCB.getSelectedItem()).toString();
-            } catch (NullPointerException ex1) {
-                problemDisplayer = "Make sure to change year first before term";
+
+            if (editCourseNoCB.getSelectedItem() != null) {
+                courseNoKey = (editCourseNoCB.getSelectedItem()).toString();
             }
+
             if (!courseNoKey.equalsIgnoreCase("")) {
                 int index = findCourseIndex(filteredCourses, courseNoKey);
                 currCourseTitleTF.setText(filteredCourses.get(index).getCourseName());
@@ -385,10 +385,8 @@ public class GUI extends JFrame {
         editUpdateBtn.addActionListener(e -> {
             String courseNoKey = "";
 
-            try {
-                courseNoKey = Objects.requireNonNull(editCourseNoCB.getSelectedItem()).toString();
-            } catch (NullPointerException ex1) {
-                problemDisplayer = "Make sure to change year first before term";
+            if (editCourseNoCB.getSelectedItem() != null) {
+                courseNoKey = (editCourseNoCB.getSelectedItem()).toString();
             }
 
             int index = findCourseIndex(listOfCourses, courseNoKey);
@@ -577,7 +575,7 @@ public class GUI extends JFrame {
                 grade = Integer.parseInt(data[5]);
 
             Course course = new Course(Integer.parseInt(data[0]), Integer.parseInt(data[1]), data[2], courseName, Integer.parseInt(data[4]),
-                    grade, preRequisiteRemarks(preReq));
+                    grade, preReq);
             courseList.add(course);
         }
         reader.close();
@@ -765,7 +763,9 @@ public class GUI extends JFrame {
      */
     private void saveCourseToCSV(Course course, String fileName) throws IOException {
         try (PrintWriter writer = new PrintWriter(new FileWriter(fileName, true))) {
-            writer.println(course.getYear() + "," + course.getTerm() + "," + course.getCourseCode() + "," + "\"" + course.getCourseName() + "\"" + "," + course.getUnits() + "," + course.getGrades());
+            writer.println(course.getYear() + "," + course.getTerm() + "," + course.getCourseCode() + "," + "\"" +
+                    course.getCourseName() + "\"" + "," + course.getUnits() + "," + course.getGrades() + "," + "\"" +
+                    course.getPreRequisite() + "\"");
         }
     }
 
