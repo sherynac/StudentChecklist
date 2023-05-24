@@ -287,6 +287,7 @@ public class GUI extends JFrame {
                 // GET PRE-REQUISITES
                 List<String> preReqList = new ArrayList<>();
                 List<Course> courseList;
+                int preReqIndex;
 
                 if (listOfCourses.get(courseIndex).getPreRequisite().charAt(0) == '3'){
                     courseList = listOfCourses.stream().filter(c -> c.getYear() == 1 || c.getYear() == 2).toList();
@@ -298,11 +299,15 @@ public class GUI extends JFrame {
                      for (int x = 0; x<courseList.size(); x++){
                          preReqList.add(courseList.get(x).getCourseCode());
                      }
+                } else {
+                    preReqList = preRequisitesInList(listOfCourses, courseIndex);
+                    preReqIndex = findCourseIndex(listOfCourses, listOfCourses.get(courseIndex).getPreRequisite());
+
                 }
 
                 // GET GRADES OF PRE-REQUISITES AND COMPARE
                 for (int i = 0; i < preReqList.size(); i++) {
-                    int preReqIndex = findCourseIndex(listOfCourses, preReqList.get(i).toString());
+                    preReqIndex = findCourseIndex(listOfCourses, preReqList.get(i).toString());
                     if (listOfCourses.get(preReqIndex).getGrades() == 0) {
                         problemDisplayer = "Pre-requisite course has not been taken";
                     } else if (listOfCourses.get(preReqIndex).getGrades() < 75) {
@@ -620,14 +625,6 @@ public class GUI extends JFrame {
     }
 
     /**
-     *
-     */
-    public String[] preRequisitesInList(String preRequisites){
-        String[] preReqsArray = preRequisites.split(",");
-        return preReqsArray;
-    }
-
-    /**
      * Button Handler class for the toSubject Buttons
      */
     public class toSubjectBtnHandler implements ActionListener {
@@ -913,7 +910,7 @@ public class GUI extends JFrame {
     }
 
     /**
-     * Method that returns the pre-requisites in an array
+     * Method that returns the pre-requisites in a list
      */
     private List<String> preRequisitesInList(List<Course> courseList, int index){
         String preRequisites = courseList.get(index).getPreRequisite();
