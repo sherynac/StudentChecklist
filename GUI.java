@@ -281,12 +281,10 @@ public class GUI extends JFrame {
 
             if (!courseNoKey.isEmpty()) {
                 courseIndex = findCourseIndex(listOfCourses, courseNoKey);
-                System.out.println(courseIndex);
             }
 
             if (!listOfCourses.get(courseIndex).getPreRequisite().isEmpty()) { // IF MAY PREREQUISITE
                 // GET PRE-REQUISITES
-                String[] preRequisitesArray = new String[0];
                 List<String> preReqList = new ArrayList<>();
                 List<Course> courseList;
 
@@ -314,6 +312,7 @@ public class GUI extends JFrame {
             }
 
             if (problemDisplayer.equalsIgnoreCase("")) {
+                problemDisplayer = "";
                 editGProblemTF.setText("");
                 listOfCourses.get(courseIndex).setGrades(grade);
                 JOptionPane.showMessageDialog(null, "Grades have successfully updated." + "\nYear: " +
